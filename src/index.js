@@ -4,24 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import Users from './containers/Users';
-import Header from './components/Header';
-import SideNav from './components/SideNav';
-import Footer from './components/Footer';
-import { Container } from 'react-bootstrap';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <Header />
-    <SideNav />
-    <Container>
-      <App />
-
-    </Container>
-
-
-    <Footer />
+    <App />
   </BrowserRouter >
 );
 
