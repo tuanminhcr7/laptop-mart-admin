@@ -4,15 +4,17 @@ import List from './List';
 
 const Users = () => {
     return (
-        <Container>
+        <div>
+            {/* <Container> */}
             <Row>
-                <Col></Col>
-                <Col xs={6}>
+                <Col className='mt-2'>
+                    <h3>Quản lý người dùng</h3>
                     <List />
                 </Col>
-                <Col></Col>
             </Row>
-        </Container>
+            {/* </Container> */}
+        </div>
+
     );
 };
 

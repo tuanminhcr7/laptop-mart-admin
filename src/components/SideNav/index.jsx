@@ -6,7 +6,7 @@ const SideNav = () => {
         <div>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
                 {/* Brand Logo */}
-                <Link to="/" className="brand-link">
+                <Link style={{ textAlign: 'center' }} to="/" className="brand-link">
                     <span className="brand-text font-weight-light">Laptop Mart</span>
                 </Link>
                 {/* Sidebar */}
@@ -26,7 +26,7 @@ const SideNav = () => {
                         <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                             <li className="nav-item">
                                 <Link to={"/users"} href="pages/widgets.html" className="nav-link">
-                                    <i className="nav-icon fas fa-user" />
+                                    {/* <i className="nav-icon fas fa-user" /> */}
                                     <p>
                                         Quản lý người dùng
                                     </p>
@@ -34,7 +34,7 @@ const SideNav = () => {
                             </li>
                             <li className="nav-item">
                                 <Link to={"/products"} href="pages/widgets.html" className="nav-link">
-                                    <i className="nav-icon fas fa-user" />
+                                    {/* <i className="nav-icon fas fa-user" /> */}
                                     <p>
                                         Quản lý sản phẩm
                                     </p>
@@ -42,7 +42,7 @@ const SideNav = () => {
                             </li>
                             <li className="nav-item">
                                 <Link to={"/warehouse"} href="pages/widgets.html" className="nav-link">
-                                    <i className="nav-icon fas fa-user" />
+                                    {/* <i className="nav-icon fas fa-user" /> */}
                                     <p>
                                         Quản lý nhập kho
                                     </p>

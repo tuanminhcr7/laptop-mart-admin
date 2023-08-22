@@ -1,10 +1,11 @@
 import React from 'react';
+import { Container } from 'react-bootstrap';
 
 const WareHouse = () => {
     return (
-        <div>
-            WareHouse
-        </div>
+        <Container>
+            <h1>Warehouse</h1>
+        </Container>
     );
 };
 

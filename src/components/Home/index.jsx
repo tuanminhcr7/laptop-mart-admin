@@ -1,9 +1,14 @@
 import React from 'react';
+import { Col, Container, Row } from 'react-bootstrap';
 
 const Home = () => {
     return (
         <div>
-            <h1 className="m-0">Admin</h1>
+            <Row>
+                <Col>
+                    <h2>Quản trị hệ thống</h2>
+                </Col>
+            </Row>
 
         </div>
     );
