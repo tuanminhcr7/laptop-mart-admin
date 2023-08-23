@@ -178,7 +178,7 @@ const List = () => {
             operating_system: 'Window 10',
             processor: 'hight',
             ram: '32GB',
-            refresh_rate: 'hight',
+            refresh_rate: '114 Hz',
             resolutionId: 3,
             resolution: '8K',
             storage: '1TGB SSD',

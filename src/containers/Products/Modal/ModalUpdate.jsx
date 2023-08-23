@@ -1,8 +1,10 @@
-import { Input, InputNumber, Select } from 'antd';
+import { Input, InputNumber, Select, Upload, message } from 'antd';
 import React, { useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import _ from 'lodash';
 import TextArea from 'antd/es/input/TextArea';
+import BtnUpload from 'antd/es/button';
+import { UploadOutlined } from '@ant-design/icons';
 
 const ModalUpdate = ({ show, handleClose, dataChoose }) => {
 
@@ -17,6 +19,24 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
     const onFinish = () => {
         console.log(formData);
     }
+
+    const props = {
+        name: 'file',
+        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+        headers: {
+            authorization: 'authorization-text',
+        },
+        onChange(info) {
+            if (info.file.status !== 'uploading') {
+                console.log(info.file, info.fileList);
+            }
+            if (info.file.status === 'done') {
+                message.success(`${info.file.name} file uploaded successfully`);
+            } else if (info.file.status === 'error') {
+                message.error(`${info.file.name} file upload failed.`);
+            }
+        },
+    };
 
     return (
         <div>
@@ -85,6 +105,14 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                 addonAfter="VND"
                                 onChange={e => onChange('price', e)}
                             />
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
+                            <label className=''>Hình ảnh</label>
+                            <Upload {...props}>
+                                <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
+                            </Upload>
                         </Col>
                     </Row>
                 </Modal.Body>
