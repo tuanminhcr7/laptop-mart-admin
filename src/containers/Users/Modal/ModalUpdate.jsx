@@ -19,11 +19,8 @@ const ModalUpdate = ({ show, handleClose, handleShow, dataChoose }) => {
     }
     return (
         <div>
-            {/* <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button> */}
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Cập nhật người dùng</Modal.Title>
                 </Modal.Header>

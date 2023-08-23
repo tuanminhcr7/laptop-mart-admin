@@ -5,27 +5,39 @@ import { styled } from 'styled-components';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import ModalUpdate from '../Modal/ModalUpdate';
 import ModalDetail from '../Modal/ModalDetail';
+import ModalDelete from '../Modal/ModalDelete';
 // import Modal from '../Modal';
 
 const List = () => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
+    const [showModalDelete, setShowModalDelete] = useState(false);
     const [dataChoose, setDataChoose] = useState({});
 
-    const handleShowModalDetail = () => {
+    const handleShowModalDetail = (value) => {
         setShowModalDetail(true);
+        setDataChoose(value)
     }
     const handleCloseModalDetail = () => {
         setShowModalDetail(false);
         setDataChoose(null);
     }
 
-    const handleShowModalUpdate = () => {
+    const handleShowModalUpdate = (value) => {
         setShowModalUpdate(true);
+        setDataChoose(value);
     }
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
+        setDataChoose(null);
+    }
+    const handleShowModalDelete = (value) => {
+        setShowModalDelete(true);
+        setDataChoose(value);
+    }
+    const handleCloseModalDelete = () => {
+        setShowModalDelete(false);
         setDataChoose(null);
     }
 
@@ -129,19 +141,22 @@ const List = () => {
                         <Button
                             variant='success'
                             onClick={() => {
-                                handleShowModalDetail();
-                                setDataChoose(record);
+                                handleShowModalUpdate(record);
                             }}
                         ><EditOutlined className='mb-2' /></Button>
                         <Button
                             className='mx-1'
                             variant='warning'
                             onClick={() => {
-                                handleShowModalUpdate();
-                                setDataChoose(record);
+                                handleShowModalDetail(record);
                             }}
                         ><EyeOutlined className='mb-2' /></Button>
-                        <Button variant='danger'><DeleteOutlined className='mb-2' /></Button>
+                        <Button
+                            variant='danger'
+                            onClick={() => {
+                                handleShowModalDelete(record);
+                            }}
+                        ><DeleteOutlined className='mb-2' /></Button>
                     </div>
                 );
             }
@@ -156,6 +171,7 @@ const List = () => {
             weight: 1,
             description: "description",
             color: "Trắng",
+            colorId: 2,
             display: "15.6 inches",
             graphics_card: 'RTX 3060',
             manufacture: 'Asus',
@@ -163,6 +179,7 @@ const List = () => {
             processor: 'hight',
             ram: '32GB',
             refresh_rate: 'hight',
+            resolutionId: 3,
             resolution: '8K',
             storage: '1TGB SSD',
             images: ''
@@ -173,7 +190,8 @@ const List = () => {
             price: 1000,
             weight: 1,
             description: "description",
-            color: "Trắng",
+            color: "Đen",
+            colorId: 3,
             display: "15.6 inches",
             graphics_card: 'RTX 3060',
             manufacture: 'Asus',
@@ -181,7 +199,8 @@ const List = () => {
             processor: 'hight',
             ram: '32GB',
             refresh_rate: 'hight',
-            resolution: '8K',
+            resolutionId: 1,
+            resolution: 'Full HD',
             storage: '1TGB SSD',
             images: ''
         },
@@ -228,6 +247,7 @@ const List = () => {
 
             <ModalDetail show={showModalDetail} handleClose={handleCloseModalDetail} dataChoose={dataChoose} />
             <ModalUpdate show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
+            <ModalDelete show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
         </div>
     );
 };

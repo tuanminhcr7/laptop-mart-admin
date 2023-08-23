@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button, Table } from 'react-bootstrap';
 import ModalUpdate from '../Modal/ModalUpdate.jsx';
 import ModalDetail from '../Modal/ModalDetail.jsx';
+import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 
 const List = () => {
 
@@ -121,12 +122,12 @@ const List = () => {
                                             status: item?.status
                                         });
                                     }}
-                                    >Edit</Button>
+                                    ><EditOutlined className='mb-2' /></Button>
                                     <Button variant='warning' className='mx-1' onClick={() => {
                                         handleShowModalDetail();
                                         setDataChoose(item);
                                     }}
-                                    >Detail</Button>
+                                    ><EyeOutlined className='mb-2' /></Button>
 
                                 </td>
                             </tr>

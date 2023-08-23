@@ -25,11 +25,8 @@ const ModalDetail = ({ show, handleClose, handleShow, dataChoose }) => {
     }
     return (
         <div>
-            {/* <Button variant="primary" onClick={handleShow}>
-                Launch demo modal
-            </Button> */}
 
-            <Modal show={show} onHide={handleClose}>
+            <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Chi tiết người dùng</Modal.Title>
                 </Modal.Header>
@@ -37,21 +34,21 @@ const ModalDetail = ({ show, handleClose, handleShow, dataChoose }) => {
                     <Row>
                         <Col>
                             <label>First Name</label>
-                            <Input value={dataChoose?.firstName} />
+                            <Input disabled value={dataChoose?.firstName} />
                         </Col>
                         <Col>
                             <label>Last Name</label>
-                            <Input value={dataChoose?.lastName} />
+                            <Input disabled value={dataChoose?.lastName} />
                         </Col>
                     </Row>
                     <Row className='mt-3'>
                         <Col>
                             <label>Email</label>
-                            <Input value={dataChoose?.email} />
+                            <Input disabled value={dataChoose?.email} />
                         </Col>
                         <Col>
                             <label>Phone</label>
-                            <Input value={dataChoose?.phone} />
+                            <Input disabled value={dataChoose?.phone} />
                         </Col>
                     </Row>
                 </Modal.Body>
