@@ -110,20 +110,22 @@ const Login = () => {
                             {/* /.login-logo */}
                             <div className="card">
                                 <div className="card-body login-card-body">
-
+                                    <label>Username</label>
                                     <div className="input-group mb-3">
                                         <input onChange={onChangeUsername} type="text" className="form-control" placeholder="Username" />
                                         <div className="input-group-append">
                                             <div className="input-group-text">
-                                                <span className="fas fa-envelope" />
+                                                {/* <span className="fas fa-envelope" /> */}
                                             </div>
                                         </div>
                                     </div>
+
+                                    <label>Password</label>
                                     <div className="input-group mb-3">
                                         <input onChange={onChangePassword} type="password" className="form-control" placeholder="Password" />
                                         <div className="input-group-append">
                                             <div className="input-group-text">
-                                                <span className="fas fa-lock" />
+                                                {/* <span className="fas fa-lock" /> */}
                                             </div>
                                         </div>
                                     </div>
@@ -131,7 +133,7 @@ const Login = () => {
 
                                         {/* /.col */}
                                         <div className="col-12">
-                                            <button onClick={onFinish} className="btn btn-primary btn-block">Sign In</button>
+                                            <button onClick={onFinish} className="btn btn-primary btn-block">Login</button>
                                         </div>
                                         {/* /.col */}
                                     </div>

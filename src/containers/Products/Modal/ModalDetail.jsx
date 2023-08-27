@@ -9,7 +9,7 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Cập nhật sản phẩm</Modal.Title>
+                    <Modal.Title>Chi tiết sản phẩm</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
