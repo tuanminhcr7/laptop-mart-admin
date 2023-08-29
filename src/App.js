@@ -13,6 +13,7 @@ import Products from './containers/Products';
 import WareHouse from './containers/WareHouse';
 import NotFound from './components/NotFound';
 import Register from './containers/Register';
+import Variants from './containers/Variants';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/users" element={<Users />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/products/:id/variants" element={<Variants />} />
           <Route path="/warehouse" element={<WareHouse />} />
         </Route>
 

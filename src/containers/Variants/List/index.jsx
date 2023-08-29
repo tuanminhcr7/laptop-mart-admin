@@ -1,14 +1,13 @@
-import { Table } from 'antd';
+import { Image, Table } from 'antd';
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { styled } from 'styled-components';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import ModalCreate from '../Modal/ModalCreate';
 import ModalUpdate from '../Modal/ModalUpdate';
-import ModalDetail from '../Modal/ModalDetail';
-import ModalDelete from '../Modal/ModalDelete';
 // import Modal from '../Modal';
 
-const List = () => {
+const List = ({ ids }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
@@ -100,8 +99,27 @@ const List = () => {
             width: 130,
         },
         {
+            title: 'Hình ảnh',
+            dataIndex: 'images',
+            key: 'weight',
+            width: 130,
+            render: (text, record) => {
+                return (
+                    <>
+                        {record?.images?.map(item => {
+                            return <Image
+                                width={50}
+                                preview={false}
+                                src={`${item?.url}`}
+                            />
+                        })}
+                    </>
+                );
+            }
+        },
+        {
             title: "Thao tác",
-            width: 200,
+            width: 100,
             fixed: 'right',
             render: (record, value) => {
                 return (
@@ -112,13 +130,13 @@ const List = () => {
                                 handleShowModalUpdate(record);
                             }}
                         ><EditOutlined className='mb-2' /></Button>
-                        <Button
+                        {/* <Button
                             className='mx-1'
                             variant='warning'
                             onClick={() => {
                                 handleShowModalDetail(record);
                             }}
-                        ><EyeOutlined className='mb-2' /></Button>
+                        ><EyeOutlined className='mb-2' /></Button> */}
                         <Button
                             variant='danger'
                             onClick={() => {
@@ -133,17 +151,73 @@ const List = () => {
 
     const fakeData = [
         {
-            "id": 6,
-            "parent_id": null,
-            "name": "Test API update",
-            "price": 1100,
-            "inventory": 32,
-            "quantity_sold": 0,
-            "weight": 1.1,
-            "description": "description",
-            "created_at": "2023-08-14T07:35:52.000Z",
-            "updated_at": "2023-08-15T08:31:18.000Z",
-            "deleted_at": null
+            id: 27,
+            parent_id: 6,
+            name: null,
+            price: 1000,
+            inventory: 0,
+            quantity_sold: 0,
+            weight: 1,
+            description: "description",
+            created_at: "2023-08-14T09:02:51.000Z",
+            updated_at: "2023-08-14T09:02:51.000Z",
+            deleted_at: null,
+            color: {
+                id: 1,
+                name: "Đen",
+                hex_code: "333333"
+            },
+            images: [
+                {
+                    url: "https://storage.googleapis.com/products-service/products/27/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
+                }
+            ]
+        },
+        {
+            id: 28,
+            parent_id: 6,
+            name: "Test API - variant 2",
+            price: 1000,
+            inventory: 8,
+            quantity_sold: 0,
+            weight: 1.05,
+            description: "description variant 2",
+            created_at: "2023-08-14T09:05:48.000Z",
+            updated_at: "2023-08-15T07:56:27.000Z",
+            deleted_at: null,
+            color: {
+                id: 3,
+                name: "Bạc",
+                hex_code: "B0B0B0"
+            },
+            images: [
+                {
+                    url: "https://storage.googleapis.com/products-service/products/28/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
+                }
+            ]
+        },
+        {
+            id: 29,
+            parent_id: 6,
+            name: "Test API - variant 3",
+            price: 1000,
+            inventory: 0,
+            quantity_sold: 0,
+            weight: 1.05,
+            description: "description variant 3",
+            created_at: "2023-08-14T09:10:16.000Z",
+            updated_at: "2023-08-14T09:10:16.000Z",
+            deleted_at: null,
+            color: {
+                id: 2,
+                name: "Trắng",
+                hex_code: "F5F5F5"
+            },
+            images: [
+                {
+                    url: "https://storage.googleapis.com/products-service/products/29/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
+                }
+            ]
         }
     ]
 
@@ -185,10 +259,7 @@ const List = () => {
                 columns={columns}
                 scroll={{ x: 400 }}
             />
-
-            <ModalDetail show={showModalDetail} handleClose={handleCloseModalDetail} dataChoose={dataChoose} />
-            <ModalUpdate show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
-            <ModalDelete show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
+            <ModalUpdate ids={ids} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
         </div>
     );
 };
