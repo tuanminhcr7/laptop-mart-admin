@@ -1,28 +1,13 @@
 import { Input } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Row } from 'react-bootstrap';
 import Modal from 'react-bootstrap/Modal';
 import _ from 'lodash';
+import Api from '../../../Apis';
+import { toast } from 'react-toastify';
 
 const ModalDetail = ({ show, handleClose, handleShow, dataChoose }) => {
 
-    const [formData, setFormData] = useState({
-        firstName: null,
-        lastName: null,
-        email: null,
-        phone: null,
-        status: null,
-    });
-
-    const onChange = (name, value) => {
-        const newFormData = _.clone(formData);
-        newFormData[name] = value;
-        setFormData(newFormData);
-    }
-
-    const onFinish = () => {
-        console.log(formData);
-    }
     return (
         <div>
 
@@ -34,21 +19,25 @@ const ModalDetail = ({ show, handleClose, handleShow, dataChoose }) => {
                     <Row>
                         <Col>
                             <label>First Name</label>
-                            <Input disabled value={dataChoose?.firstName} />
+                            {/* <Input disabled value={dataChoose?.first_name} /> */}
+                            <p>{dataChoose?.first_name}</p>
                         </Col>
                         <Col>
                             <label>Last Name</label>
-                            <Input disabled value={dataChoose?.lastName} />
+                            <p>{dataChoose?.last_name}</p>
+                            {/* <Input disabled value={dataChoose?.last_name} /> */}
                         </Col>
                     </Row>
                     <Row className='mt-3'>
                         <Col>
                             <label>Email</label>
-                            <Input disabled value={dataChoose?.email} />
+                            <p>{dataChoose?.email}</p>
+                            {/* <Input disabled value={dataChoose?.email} /> */}
                         </Col>
                         <Col>
                             <label>Phone</label>
-                            <Input disabled value={dataChoose?.phone} />
+                            <p>{dataChoose?.phone}</p>
+                            {/* <Input disabled value={dataChoose?.phone} /> */}
                         </Col>
                     </Row>
                 </Modal.Body>

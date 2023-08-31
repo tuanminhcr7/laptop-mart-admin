@@ -14,6 +14,7 @@ import WareHouse from './containers/WareHouse';
 import NotFound from './components/NotFound';
 import Register from './containers/Register';
 import Variants from './containers/Variants';
+import Orders from './containers/Orders';
 
 
 function App() {
@@ -23,10 +24,12 @@ function App() {
       <Routes>
         <Route element={<><Header /><SideNav /><div style={{ paddingLeft: 280, paddingRight: 50 }}><Outlet /></div><Footer /></>}>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Home />} />
           <Route path="/users" element={<Users />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id/variants" element={<Variants />} />
-          <Route path="/warehouse" element={<WareHouse />} />
+          {/* <Route path="/warehouse" element={<WareHouse />} /> */}
+          <Route path="/orders" element={<Orders />} />
         </Route>
 
         <Route element={Cookies.get('token') ? <Navigate to='/' /> : <Outlet />}>
@@ -35,7 +38,7 @@ function App() {
             element={<Login />}
           />
         </Route>
-        <Route path="/auth/register" element={<Register />} />
+        {/* <Route path="/auth/register" element={<Register />} /> */}
 
         <Route path="*" element={<NotFound />} />
       </Routes>

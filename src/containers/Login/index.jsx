@@ -1,12 +1,14 @@
 import { Input, Button, Form } from 'antd';
 import React, { useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import Api from '../../Apis';
-import { redirect } from 'react-router-dom';
+import Apis from '../../Apis';
+import { useNavigate } from 'react-router-dom'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
 const Login = () => {
+    const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
         username: null,
@@ -21,17 +23,19 @@ const Login = () => {
         setFormData({ ...formData, password: e.target.value });
     };
 
-    const onFinish = () => {
-        console.log(formData);
+    const onFinish = (value) => {
         const payload = {
-            account: formData?.username,
-            password: formData?.password
+            account: value?.account,
+            password: value?.password,
+            isUser: false
         }
-        Api.login(payload).then(res => {
+        Apis.login(payload).then(res => {
             toast.success("Đăng nhập thành công!");
+            Cookies.set('token', res?.data?.data?.token);
+            // Cookies.set('account', payload?.account)
             setTimeout(() => {
-                redirect("/");
-            }, 3000);
+                navigate('/');
+            }, 2000);
 
         }).catch(err => {
             toast.error("Đăng nhập thất bại!");
@@ -47,100 +51,75 @@ const Login = () => {
                 <Row>
                     <Col></Col>
                     <Col style={{ marginTop: '10%' }}>
-                        {/* <h1 style={{ textAlign: 'center' }}>LOGIN</h1>
                         <Form
-                            name="basic"
-                            labelCol={{
-                                span: 8,
-                            }}
-                            wrapperCol={{
-                                span: 16,
-                            }}
-                            style={{
-                                // maxWidth: 600,
-                            }}
                             initialValues={{
                                 remember: true,
                             }}
                             onFinish={onFinish}
                             onFinishFailed={onFinishFailed}
-                            autoComplete="off"
                         >
-                            <Form.Item
-                                label="Username"
-                                name="username"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your username!',
-                                    },
-                                ]}
-                            >
-                                <Input />
-                            </Form.Item>
-
-                            <Form.Item
-                                label="Password"
-                                name="password"
-                                rules={[
-                                    {
-                                        required: true,
-                                        message: 'Please input your password!',
-                                    },
-                                ]}
-                            >
-                                <Input.Password />
-                            </Form.Item>
-
-                            <Form.Item
-                                wrapperCol={{
-                                    offset: 8,
-                                    span: 16,
-                                }}
-                            >
-                                <Button type="primary" htmlType="submit">
-                                    Login
-                                </Button>
-                            </Form.Item>
-                        </Form> */}
-                        <div className="login-box">
-                            <div className="login-logo">
-                                <b>LOGIN</b>
-                            </div>
-                            {/* /.login-logo */}
-                            <div className="card">
-                                <div className="card-body login-card-body">
-                                    <label>Username</label>
-                                    <div className="input-group mb-3">
-                                        <input onChange={onChangeUsername} type="text" className="form-control" placeholder="Username" />
-                                        <div className="input-group-append">
-                                            <div className="input-group-text">
-                                                {/* <span className="fas fa-envelope" /> */}
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <label>Password</label>
-                                    <div className="input-group mb-3">
-                                        <input onChange={onChangePassword} type="password" className="form-control" placeholder="Password" />
-                                        <div className="input-group-append">
-                                            <div className="input-group-text">
-                                                {/* <span className="fas fa-lock" /> */}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-
-                                        {/* /.col */}
-                                        <div className="col-12">
-                                            <button onClick={onFinish} className="btn btn-primary btn-block">Login</button>
-                                        </div>
-                                        {/* /.col */}
-                                    </div>
+                            <div className="login-box">
+                                <div className="login-logo">
+                                    <b>LOGIN</b>
                                 </div>
-                                {/* /.login-card-body */}
+                                {/* /.login-logo */}
+                                <div className="card">
+                                    <div className="card-body login-card-body">
+                                        <label>Account</label>
+                                        {/* <div className="input-group mb-3"> */}
+                                        <Form.Item
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Tài khoản không được để trống',
+                                                },
+                                                {
+                                                    min: 5,
+                                                    message: 'Tài khoản phải có ít nhất 5 ký tự'
+                                                }
+                                            ]}
+                                            name={"account"}
+                                        >
+                                            {/* <Input onChange={onChangeUsername} type="text" className="form-control" placeholder="Username" /> */}
+                                            <Input placeholder="Account" />
+                                        </Form.Item>
+                                        {/* </div> */}
+
+                                        <label>Password</label>
+                                        <Form.Item
+                                            rules={[
+                                                {
+                                                    required: true,
+                                                    message: 'Mật khẩu không được để trống',
+                                                },
+                                                {
+                                                    min: 6,
+                                                    message: 'Mật khẩu phải có ít nhất 6 ký tự'
+                                                }
+                                            ]}
+                                            name={'password'}
+                                        >
+                                            <Input type='password' placeholder='Password' />
+                                        </Form.Item>
+                                        {/* <div className="input-group mb-3">
+                                            <input onChange={onChangePassword} type="password" className="form-control" placeholder="Password" />
+
+                                        </div> */}
+                                        <div className="row">
+
+                                            {/* /.col */}
+                                            <div className="col-12">
+                                                {/* <button onClick={onFinish} className="btn btn-primary btn-block">Login</button> */}
+                                                <Button htmlType='submit' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }} className="btn btn-primary btn-block">Login</Button>
+                                            </div>
+                                            {/* /.col */}
+                                        </div>
+                                    </div>
+                                    {/* /.login-card-body */}
+                                </div>
                             </div>
-                        </div>
+                        </Form>
+
 
                     </Col>
                     <Col></Col>

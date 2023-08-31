@@ -1,7 +1,9 @@
+import Cookies from 'js-cookie';
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
 const Home = () => {
+
     return (
         <div>
             <Row>

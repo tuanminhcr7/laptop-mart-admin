@@ -1,143 +1,161 @@
 import React, { useState } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import ModalUpdate from '../Modal/ModalUpdate.jsx';
 import ModalDetail from '../Modal/ModalDetail.jsx';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
+import { Table } from 'antd';
+import Api from '../../../Apis/index.jsx';
+import { toast } from 'react-toastify';
 
-const List = () => {
+const List = ({ data, onRefresh }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
-    const [dataChoose, setDataChoose] = useState({
-        id: null,
-        firstName: null,
-        lastName: null,
-        phone: null,
-        email: null,
-        status: null
-    });
+    const [dataDetail, setDataDetail] = useState(null);
+    const [dataUpdate, setDataUpdate] = useState(null);
 
-    const handleCloseModalUpdate = () => {
-        setShowModalUpdate(false);
-        setDataChoose({
-            ...dataChoose,
-            id: null,
-            firstName: null,
-            lastName: null,
-            phone: null,
-            email: null,
-            status: null
-        })
-    }
-    const handleShowModalUpdate = () => {
-        setShowModalUpdate(true);
-    }
-
-    const handleCloseModalDetail = () => {
-        setShowModalDetail(false);
-        setDataChoose({
-            ...dataChoose,
-            id: null,
-            firstName: null,
-            lastName: null,
-            phone: null,
-            email: null,
-            status: null
+    const handleShowModalDetail = (value) => {
+        Api.userDetail(value?.id).then(res => {
+            setDataDetail(res?.data?.data);
+        }).catch(err => {
+            toast.error('Có lỗi xảy ra');
         });
-    }
-    const handleShowModalDetail = () => {
         setShowModalDetail(true);
     }
+    const handleCloseModalDetail = () => {
+        setShowModalDetail(false);
+        setDataDetail(null);
+    }
 
-    console.log(dataChoose);
+    const handleShowModalUpdate = (value) => {
+        setDataUpdate(value);
+        setShowModalUpdate(true);
+    }
+    const handleCloseModalUpdate = () => {
+        setShowModalUpdate(false);
+        setDataUpdate(null)
+    }
 
-    const fakeData = [
+    const columns = [
         {
-            id: 1,
-            firstName: "Nguyễn",
-            lastName: "Văn Tuấn",
-            phone: "0923431313",
-            email: "tuanvn@gmail.com",
-            status: 1
+            title: 'STT',
+            dataIndex: 'index',
+            key: 'index',
+            width: 60,
+            fixed: 'left',
+            render: (record, value, index) => {
+                return <div style={{ textAlign: 'center' }}>{index + 1}</div>;
+            }
         },
         {
-            id: 2,
-            firstName: "Nguyễn",
-            lastName: "Xuân Ánh",
-            phone: "0923431313",
-            email: "anhxn@gmail.com",
-            status: 1
+            title: 'First Name',
+            dataIndex: 'first_name',
+            key: 'name',
+            width: 100,
+
         },
         {
-            id: 1,
-            firstName: "Nguyễn",
-            lastName: "Viết Hiếu",
-            phone: "0923431313",
-            email: "hieunv@gmail.com",
-            status: 1
+            title: 'Last Name',
+            dataIndex: 'last_name',
+            key: 'name',
+            width: 100,
+
         },
         {
-            id: 1,
-            firstName: "Vũ",
-            lastName: "Nguyễn Tuấn Minh",
-            phone: "0923431313",
-            email: "minhvnt@gmail.com",
-            status: 1
+            title: 'Email',
+            dataIndex: 'email',
+            key: 'weight',
+            width: 150,
         },
-    ]
+        {
+            title: 'Số điện thoại',
+            dataIndex: 'phone',
+            key: 'color',
+            width: 150,
+        },
+        {
+            title: 'Quyền',
+            dataIndex: 'role',
+            key: 'weight',
+            width: 100,
+            render: (text, record) => {
+                switch (text) {
+                    case 1:
+                        return <div className='text-center bg-warning p-1'>Quản trị</div>
+                        break;
+                    case 2:
+                        return <div className='text-center bg-primary p-1'>Thành viên</div>
+                        break;
+                    default:
+                        break;
+                }
+            }
+        },
+        {
+            title: 'Trạng thái',
+            dataIndex: 'status',
+            key: 'weight',
+            width: 150,
+            render: (text, record) => {
+                switch (text) {
+                    case 1:
+                        return <div className='text-center bg-success p-1'>Đang hoạt động</div>
+                        break;
+                    case 0:
+                        return <div className='text-center bg-danger p-1'>Ngừng hoạt động</div>
+                        break;
+                    default:
+                        break;
+                }
+            }
+        },
+        {
+            title: "Thao tác",
+            width: 200,
+            fixed: 'right',
+            render: (record, value) => {
+                return (
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <Button
+                            variant='success'
+                            onClick={() => {
+                                handleShowModalUpdate(record);
+                            }}
+                        ><EditOutlined className='mb-2' /></Button>
+                        <Button
+                            className='mx-1'
+                            variant='warning'
+                            onClick={() => {
+                                handleShowModalDetail(record);
+                            }}
+                        ><EyeOutlined className='mb-2' /></Button>
+                    </div>
+                );
+            }
+        }
+    ];
 
     return (
         <div className='mt-3'>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>First Name</th>
-                        <th>Last Name</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {fakeData?.map((item, index) => {
-
-                        return (
-                            <tr>
-                                <td>{index + 1}</td>
-                                <td>{item?.firstName}</td>
-                                <td>{item?.lastName}</td>
-                                <td>{item?.phone}</td>
-                                <td>{item?.email}</td>
-                                <td key={index} style={{ display: 'flex', justifyContent: 'center' }}>
-                                    <Button variant='success' onClick={() => {
-                                        handleShowModalUpdate();
-                                        setDataChoose({
-                                            ...dataChoose,
-                                            id: item?.id,
-                                            firstName: item?.firstName,
-                                            lastName: item?.lastName,
-                                            phone: item?.phone,
-                                            email: item?.email,
-                                            status: item?.status
-                                        });
-                                    }}
-                                    ><EditOutlined className='mb-2' /></Button>
-                                    <Button variant='warning' className='mx-1' onClick={() => {
-                                        handleShowModalDetail();
-                                        setDataChoose(item);
-                                    }}
-                                    ><EyeOutlined className='mb-2' /></Button>
-
-                                </td>
-                            </tr>
-                        );
-                    })}
-
-                </tbody>
-            </Table>
-            <ModalUpdate dataChoose={dataChoose} show={showModalUpdate} handleClose={handleCloseModalUpdate} handleShow={handleShowModalUpdate} />
-            <ModalDetail dataChoose={dataChoose} show={showModalDetail} handleClose={handleCloseModalDetail} handleShow={handleShowModalDetail} />
+            <Table
+                bordered
+                dataSource={data}
+                columns={columns}
+                scroll={{ x: 400 }}
+            />
+            <ModalUpdate
+                onRefresh={onRefresh}
+                dataChoose={dataUpdate}
+                show={showModalUpdate}
+                handleClose={handleCloseModalUpdate}
+                handleShow={handleShowModalUpdate}
+            />
+            <ModalDetail
+                dataChoose={dataDetail}
+                show={showModalDetail}
+                handleClose={handleCloseModalDetail}
+                handleShow={handleShowModalDetail}
+            />
         </div>
     );
 };

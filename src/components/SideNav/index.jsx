@@ -1,7 +1,24 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Api from '../../Apis';
+import { toast } from 'react-toastify';
 
 const SideNav = () => {
+
+    const [dataProfile, setDataProfile] = useState();
+
+    const getProfile = useCallback(async () => {
+        Api.profile().then(res => {
+            setDataProfile({ ...dataProfile, firstName: res?.data?.data?.firstName, lastName: res?.data?.data?.lastName })
+        }).catch(err => {
+            toast.error('Có lỗi xảy ra!');
+        });
+    }, []);
+
+    useEffect(() => {
+        getProfile();
+    }, []);
+
     return (
         <div>
             <aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -17,7 +34,7 @@ const SideNav = () => {
                             <img src="dist/img/user2-160x160.jpg" className="img-circle elevation-2" alt="User Image" />
                         </div>
                         <div className="info">
-                            <a href="#" className="d-block">Alexander Pierce</a>
+                            <Link to={'/profile'} className="d-block">{dataProfile?.firstName} {dataProfile?.lastName}</Link>
                         </div>
                     </div>
 
@@ -41,10 +58,10 @@ const SideNav = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link to={"/warehouse"} href="pages/widgets.html" className="nav-link">
+                                <Link to={"/orders"} href="pages/widgets.html" className="nav-link">
                                     {/* <i className="nav-icon fas fa-user" /> */}
                                     <p>
-                                        Quản lý nhập kho
+                                        Quản lý đơn hàng
                                     </p>
                                 </Link>
                             </li>
