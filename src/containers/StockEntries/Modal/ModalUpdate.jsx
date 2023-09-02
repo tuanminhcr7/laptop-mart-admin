@@ -1,30 +1,36 @@
-import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
 import { Input, InputNumber, Select, Upload, message } from 'antd';
-import TextArea from 'antd/es/input/TextArea';
-import _ from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
+import _ from 'lodash';
+import TextArea from 'antd/es/input/TextArea';
 import BtnUpload from 'antd/es/button';
-import Api from '../../../Apis';
-import { toast } from 'react-toastify';
+import { UploadOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
-const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) => {
+const ModalUpdate = ({ show, handleClose, dataChoose }) => {
+
+    const [formData, setFormData] = useState(null);
+    const [showModalVariant, setShowModalVarial] = useState(false);
+    const [itemVariantSelected, setItemVariantSelected] = useState(null);
+
+    const handleShowModalVariant = (value) => {
+        setShowModalVarial(true);
+        setItemVariantSelected(value)
+    }
+
+    const handleCloseModalVariant = () => {
+        setShowModalVarial(false);
+        setItemVariantSelected(null);
+    }
 
     const onChange = (name, value) => {
-        const newFormData = _.clone(formData);
-        newFormData[name] = value;
-        setFormData(newFormData);
+        const newDataChoose = _.clone(dataChoose);
+        newDataChoose[name] = value;
+        setFormData(newDataChoose);
     }
 
     const onFinish = () => {
         console.log(formData);
-        const payload = { ...formData };
-        Api.productVariantsCreate(productId, payload).then(res => {
-            toast.success("Thêm mới thành công");
-            handleClose();
-        }).catch(err => {
-
-        });
     }
 
     const props = {
@@ -49,42 +55,31 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Thêm mới biến thể</Modal.Title>
+                    <Modal.Title>Cập nhật sản phẩm</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <Col>
-                            <label>Tên biến thể</label>
-                            <Input
-
-                                onChange={e => onChange('name', e.target.value)} />
+                            <label>Tên sản phẩm</label>
+                            <Input defaultValue={dataChoose?.name} onChange={e => onChange('name', e.target.value)} />
                         </Col>
-                        <Col>
-                            <label>Giá</label>
-                            <InputNumber
-
-                                addonAfter="VND"
-                                onChange={e => onChange('price', e)}
-                            />
-                        </Col>
-
                     </Row>
-                    <Row>
+                    <Row className='mt-3'>
                         <Col>
                             <label>Mô tả</label>
                             <TextArea
-
+                                defaultValue={dataChoose?.description}
                                 onChange={e => {
                                     onChange('description', e.target.value);
                                 }}
                             />
                         </Col>
                     </Row>
-                    <Row>
+                    <Row className='mt-3'>
                         <Col>
                             <label>Cân nặng</label>
                             <InputNumber
-
+                                defaultValue={dataChoose?.weight}
                                 addonAfter="Kg"
                                 onChange={e => onChange('weight', e)}
                             />
@@ -92,7 +87,7 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
                         <Col>
                             <label>Màu sắc</label><br />
                             <Select
-
+                                defaultValue={dataChoose?.colorId}
                                 style={{ width: '100%' }}
                                 onChange={e => onChange('colorId', e)}
                             >
@@ -103,13 +98,40 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
                         </Col>
 
                     </Row>
-
+                    <Row className='mt-3'>
+                        <Col>
+                            <label>Độ phân giải</label><br />
+                            <Select
+                                defaultValue={dataChoose?.resolutionId}
+                                style={{ width: '100%' }}
+                                onChange={e => onChange('resolutionId', e)}
+                            >
+                                <Select.Option value={1}>Full HD</Select.Option>
+                                <Select.Option value={2}>4K</Select.Option>
+                                <Select.Option value={3}>8K</Select.Option>
+                            </Select>
+                        </Col>
+                        <Col>
+                            <label>Giá</label>
+                            <InputNumber
+                                defaultValue={dataChoose?.price}
+                                addonAfter="VND"
+                                onChange={e => onChange('price', e)}
+                            />
+                        </Col>
+                    </Row>
                     <Row>
                         <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
                             <label className=''>Hình ảnh</label>
                             <Upload {...props}>
                                 <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
                             </Upload>
+                        </Col>
+                        <Col className='mt-2' style={{ display: 'flex', justifyContent: 'end' }}>
+                            {/* <Button variant='success' onClick={e => handleShowModalVariant(dataChoose)}>Biến thể</Button> */}
+                            <Button variant='success'>
+                                <Link style={{ color: '#fff' }} to={`/products/${dataChoose?.id}/variants`}>Biến thể</Link>
+                            </Button>
                         </Col>
                     </Row>
                 </Modal.Body>
@@ -118,12 +140,12 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
                         Hủy
                     </Button>
                     <Button variant="primary" onClick={onFinish}>
-                        Thêm mới
+                        Cập nhật
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </div>
+        </div >
     );
 };
 
-export default ModalCreate;
+export default ModalUpdate;

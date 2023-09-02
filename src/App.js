@@ -10,11 +10,12 @@ import { BrowserRouter, Navigate, Outlet, Route, Router, Routes } from 'react-ro
 import Users from './containers/Users';
 import Login from './containers/Login';
 import Products from './containers/Products';
-import WareHouse from './containers/WareHouse';
 import NotFound from './components/NotFound';
 import Register from './containers/Register';
 import Variants from './containers/Variants';
 import Orders from './containers/Orders';
+import StockEntries from './containers/StockEntries';
+import StockEntryProduct from './containers/StockEntryProduct';
 
 
 function App() {
@@ -28,7 +29,8 @@ function App() {
           <Route path="/users" element={<Users />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id/variants" element={<Variants />} />
-          {/* <Route path="/warehouse" element={<WareHouse />} /> */}
+          <Route path="/products/stock-entries" element={<StockEntries />} />
+          <Route path="/products/:id/stock-entries" element={<StockEntryProduct />} />
           <Route path="/orders" element={<Orders />} />
         </Route>
 

@@ -10,9 +10,7 @@ const Header = () => {
     const handleLogout = () => {
         Cookies.remove('token');
         toast.success('Đăng xuất thành công!');
-        setTimeout(() => {
-            navigate('/auth/login');
-        }, 2000);
+        navigate('/auth/login');
 
     }
 

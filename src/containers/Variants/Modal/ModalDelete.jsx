@@ -1,11 +1,18 @@
 import { Input } from 'antd';
 import React from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
+import Api from '../../../Apis';
+import { toast } from 'react-toastify';
 
-const ModalDelete = ({ show, handleClose, dataChoose }) => {
+const ModalDelete = ({ productId, show, handleClose, dataChoose }) => {
 
     const onFinish = () => {
+        Api.productVariantsDelete(productId, dataChoose?.id).then(res => {
+            toast("Xóa thành công!");
+            handleClose();
+        }).catch(err => {
 
+        });
     }
 
     return (

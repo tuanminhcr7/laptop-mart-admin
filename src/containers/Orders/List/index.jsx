@@ -8,7 +8,7 @@ import ModalDetail from '../Modal/ModalDetail';
 // import ModalDelete from '../Modal/ModalDelete';
 // import Modal from '../Modal';
 
-const List = () => {
+const List = ({ data }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
@@ -89,17 +89,32 @@ const List = () => {
             title: 'Trạng thái',
             dataIndex: 'status',
             key: 'weight',
-            width: 120,
+            width: 200,
             render: (text, record) => {
+                // export const ORDER = {
+                //     STATUS: {
+                //       0: 'waiting_for_payment',
+                //       1: 'processing',
+                //       2: 'shipping',
+                //       3: 'completed',
+                //       4: 'cancelled'
+                //     }
+                //   }
                 switch (text) {
                     case 0:
-                        return <div className='bg-danger p-1 text-center'>Chưa giao</div>
+                        return <div className='bg-secondary p-1 text-center'>waiting_for_payment</div>
                         break;
                     case 1:
-                        return <div className='bg-warning p-1 text-center'>Đang giao</div>
+                        return <div className='bg-primary p-1 text-center'>processing</div>
                         break;
                     case 2:
-                        return <div className='bg-success p-1 text-center'>Đã giao</div>
+                        return <div className='bg-warning p-1 text-center'>shipping</div>
+                        break;
+                    case 3:
+                        return <div className='bg-success p-1 text-center'>completed</div>
+                        break;
+                    case 4:
+                        return <div className='bg-danger p-1 text-center'>cancelled</div>
                         break;
                     default:
                         break;
@@ -177,39 +192,9 @@ const List = () => {
 
     return (
         <div className='mt-3'>
-            {/* <Table striped style={{}} bordered >
-                <thead>
-                    <tr>
-                        <th style={{ width: 40 }}>#</th>
-                        {columns.map((item, index) => (
-                            <th style={{ width: item?.width }} key={index}>{item?.title}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <td style={{ width: 200 }} key={index}>Table cell {index}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <td style={{ width: 200 }} key={index}>Table cell {index}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <td style={{ width: 200 }} key={index}>Table cell {index}</td>
-                        ))}
-                    </tr>
-                </tbody>
-            </Table> */}
             <Table
                 bordered
-                dataSource={fakeData}
+                dataSource={data}
                 columns={columns}
                 scroll={{ x: 400 }}
             />

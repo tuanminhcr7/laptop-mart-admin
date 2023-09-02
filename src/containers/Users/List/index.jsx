@@ -25,6 +25,7 @@ const List = ({ data, onRefresh }) => {
     const handleCloseModalDetail = () => {
         setShowModalDetail(false);
         setDataDetail(null);
+        onRefresh();
     }
 
     const handleShowModalUpdate = (value) => {
@@ -34,6 +35,7 @@ const List = ({ data, onRefresh }) => {
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
         setDataUpdate(null)
+        onRefresh();
     }
 
     const columns = [

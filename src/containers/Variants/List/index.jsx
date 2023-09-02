@@ -5,9 +5,10 @@ import { styled } from 'styled-components';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import ModalCreate from '../Modal/ModalCreate';
 import ModalUpdate from '../Modal/ModalUpdate';
+import ModalDelete from '../Modal/ModalDelete';
 // import Modal from '../Modal';
 
-const List = ({ ids }) => {
+const List = ({ productId, data, onRefresh }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
@@ -30,6 +31,7 @@ const List = ({ ids }) => {
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
         setDataChoose(null);
+        onRefresh();
     }
     const handleShowModalDelete = (value) => {
         setShowModalDelete(true);
@@ -38,6 +40,7 @@ const List = ({ ids }) => {
     const handleCloseModalDelete = () => {
         setShowModalDelete(false);
         setDataChoose(null);
+        onRefresh();
     }
 
     const columns = [
@@ -125,6 +128,7 @@ const List = ({ ids }) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                         <Button
+                            className='mx-1'
                             variant='success'
                             onClick={() => {
                                 handleShowModalUpdate(record);
@@ -149,117 +153,88 @@ const List = ({ ids }) => {
         }
     ];
 
-    const fakeData = [
-        {
-            id: 27,
-            parent_id: 6,
-            name: null,
-            price: 1000,
-            inventory: 0,
-            quantity_sold: 0,
-            weight: 1,
-            description: "description",
-            created_at: "2023-08-14T09:02:51.000Z",
-            updated_at: "2023-08-14T09:02:51.000Z",
-            deleted_at: null,
-            color: {
-                id: 1,
-                name: "Đen",
-                hex_code: "333333"
-            },
-            images: [
-                {
-                    url: "https://storage.googleapis.com/products-service/products/27/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-                }
-            ]
-        },
-        {
-            id: 28,
-            parent_id: 6,
-            name: "Test API - variant 2",
-            price: 1000,
-            inventory: 8,
-            quantity_sold: 0,
-            weight: 1.05,
-            description: "description variant 2",
-            created_at: "2023-08-14T09:05:48.000Z",
-            updated_at: "2023-08-15T07:56:27.000Z",
-            deleted_at: null,
-            color: {
-                id: 3,
-                name: "Bạc",
-                hex_code: "B0B0B0"
-            },
-            images: [
-                {
-                    url: "https://storage.googleapis.com/products-service/products/28/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-                }
-            ]
-        },
-        {
-            id: 29,
-            parent_id: 6,
-            name: "Test API - variant 3",
-            price: 1000,
-            inventory: 0,
-            quantity_sold: 0,
-            weight: 1.05,
-            description: "description variant 3",
-            created_at: "2023-08-14T09:10:16.000Z",
-            updated_at: "2023-08-14T09:10:16.000Z",
-            deleted_at: null,
-            color: {
-                id: 2,
-                name: "Trắng",
-                hex_code: "F5F5F5"
-            },
-            images: [
-                {
-                    url: "https://storage.googleapis.com/products-service/products/29/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-                }
-            ]
-        }
-    ]
+    // const fakeData = [
+    //     {
+    //         id: 27,
+    //         parent_id: 6,
+    //         name: null,
+    //         price: 1000,
+    //         inventory: 0,
+    //         quantity_sold: 0,
+    //         weight: 1,
+    //         description: "description",
+    //         created_at: "2023-08-14T09:02:51.000Z",
+    //         updated_at: "2023-08-14T09:02:51.000Z",
+    //         deleted_at: null,
+    //         color: {
+    //             id: 1,
+    //             name: "Đen",
+    //             hex_code: "333333"
+    //         },
+    //         images: [
+    //             {
+    //                 url: "https://storage.googleapis.com/products-service/products/27/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         id: 28,
+    //         parent_id: 6,
+    //         name: "Test API - variant 2",
+    //         price: 1000,
+    //         inventory: 8,
+    //         quantity_sold: 0,
+    //         weight: 1.05,
+    //         description: "description variant 2",
+    //         created_at: "2023-08-14T09:05:48.000Z",
+    //         updated_at: "2023-08-15T07:56:27.000Z",
+    //         deleted_at: null,
+    //         color: {
+    //             id: 3,
+    //             name: "Bạc",
+    //             hex_code: "B0B0B0"
+    //         },
+    //         images: [
+    //             {
+    //                 url: "https://storage.googleapis.com/products-service/products/28/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
+    //             }
+    //         ]
+    //     },
+    //     {
+    //         id: 29,
+    //         parent_id: 6,
+    //         name: "Test API - variant 3",
+    //         price: 1000,
+    //         inventory: 0,
+    //         quantity_sold: 0,
+    //         weight: 1.05,
+    //         description: "description variant 3",
+    //         created_at: "2023-08-14T09:10:16.000Z",
+    //         updated_at: "2023-08-14T09:10:16.000Z",
+    //         deleted_at: null,
+    //         color: {
+    //             id: 2,
+    //             name: "Trắng",
+    //             hex_code: "F5F5F5"
+    //         },
+    //         images: [
+    //             {
+    //                 url: "https://storage.googleapis.com/products-service/products/29/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
+    //             }
+    //         ]
+    //     }
+    // ]
 
     return (
         <div className='mt-3'>
-            {/* <Table striped style={{}} bordered >
-                <thead>
-                    <tr>
-                        <th style={{ width: 40 }}>#</th>
-                        {columns.map((item, index) => (
-                            <th style={{ width: item?.width }} key={index}>{item?.title}</th>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>1</td>
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <td style={{ width: 200 }} key={index}>Table cell {index}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <td style={{ width: 200 }} key={index}>Table cell {index}</td>
-                        ))}
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <td style={{ width: 200 }} key={index}>Table cell {index}</td>
-                        ))}
-                    </tr>
-                </tbody>
-            </Table> */}
             <Table
                 bordered
-                dataSource={fakeData}
+                dataSource={data}
                 columns={columns}
                 scroll={{ x: 400 }}
             />
-            <ModalUpdate ids={ids} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
+            <ModalUpdate productId={productId} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
+            <ModalDelete productId={productId} show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
         </div>
     );
 };

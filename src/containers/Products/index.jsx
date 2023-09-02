@@ -1,9 +1,18 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Col, Container, Row } from 'react-bootstrap';
 import List from './List';
 import ModalCreate from './Modal/ModalCreate';
+import Api from '../../Apis';
+import { Link } from 'react-router-dom';
 
 const Products = () => {
+
+    const [params, setParams] = useState({
+        page: null,
+        pageSize: null
+    });
+
+    const [listProduct, setListProduct] = useState([]);
 
     const [showModalCreate, setShowModalCreate] = useState(false);
     const [formData, setFormData] = useState({
@@ -45,7 +54,22 @@ const Products = () => {
             resolutionId: null,
             storageId: null,
             images: null,
+        });
+        onRefresh();
+    };
+
+    const getListProduct = useCallback(async () => {
+        Api.productList(params).then(res => {
+            setListProduct(res?.data?.data);
         })
+    }, []);
+
+    useEffect(() => {
+        getListProduct();
+    }, []);
+
+    const onRefresh = () => {
+        getListProduct();
     }
 
     return (
@@ -59,7 +83,7 @@ const Products = () => {
                         </Col>
                     </Row>
 
-                    <List />
+                    <List onRefresh={onRefresh} data={listProduct} />
                     <ModalCreate show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
                 </Col>
             </Row>

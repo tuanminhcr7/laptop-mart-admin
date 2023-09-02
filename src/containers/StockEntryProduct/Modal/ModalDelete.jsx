@@ -4,22 +4,22 @@ import { Button, Col, Modal, Row } from 'react-bootstrap';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
 
-const ModalDelete = ({ show, handleClose, dataChoose }) => {
+const ModalDelete = ({ show, handleClose, dataChoose, productId }) => {
 
     const onFinish = () => {
-        Api.productDelete(dataChoose?.id).then(res => {
+        Api.stockEntriesDelete(productId, dataChoose?.id).then(res => {
             toast.success("Xóa thành công!");
             handleClose();
         }).catch(err => {
-            toast.error("Có lỗi");
-        })
+
+        });
     }
 
     return (
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Xóa sản phẩm</Modal.Title>
+                    <Modal.Title>Xóa sản phẩm nhập kho</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>

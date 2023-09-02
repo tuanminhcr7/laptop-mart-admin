@@ -1,12 +1,13 @@
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { Input, InputNumber, Select, Upload, message } from 'antd';
+import { DatePicker, Input, InputNumber, Select, Upload, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import _ from 'lodash';
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import BtnUpload from 'antd/es/button';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 
 const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) => {
 
@@ -19,8 +20,8 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
     const onFinish = () => {
         console.log(formData);
         const payload = { ...formData };
-        Api.productVariantsCreate(productId, payload).then(res => {
-            toast.success("Thêm mới thành công");
+        Api.stockEntriesCreate(productId, payload).then(res => {
+            toast.success("Thêm mới thành công!");
             handleClose();
         }).catch(err => {
 
@@ -34,6 +35,7 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
             authorization: 'authorization-text',
         },
         onChange(info) {
+            console.log(info);
             if (info.file.status !== 'uploading') {
                 console.log(info.file, info.fileList);
             }
@@ -49,69 +51,37 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Thêm mới biến thể</Modal.Title>
+                    <Modal.Title>Thêm mới sản phẩm kho</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
                         <Col>
-                            <label>Tên biến thể</label>
+                            <label>Số lượng</label>
                             <Input
 
-                                onChange={e => onChange('name', e.target.value)} />
+                                onChange={e => onChange('quantity', e.target.value)} />
                         </Col>
                         <Col>
-                            <label>Giá</label>
-                            <InputNumber
-
-                                addonAfter="VND"
-                                onChange={e => onChange('price', e)}
-                            />
-                        </Col>
-
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Mô tả</label>
-                            <TextArea
-
-                                onChange={e => {
-                                    onChange('description', e.target.value);
-                                }}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Cân nặng</label>
-                            <InputNumber
-
-                                addonAfter="Kg"
-                                onChange={e => onChange('weight', e)}
-                            />
-                        </Col>
-                        <Col>
-                            <label>Màu sắc</label><br />
-                            <Select
-
+                            <label>Ngày nhập kho</label>
+                            <DatePicker
                                 style={{ width: '100%' }}
-                                onChange={e => onChange('colorId', e)}
-                            >
-                                <Select.Option value={1}>Xanh</Select.Option>
-                                <Select.Option value={2}>Trắng</Select.Option>
-                                <Select.Option value={3}>Đen</Select.Option>
-                            </Select>
+                                format={'DD/MM/YYYY'}
+                                onChange={e => onChange('entryDatetime', e && moment(e).format('YYYY-MM-DD HH:mm:ss'))}
+                            />
                         </Col>
-
                     </Row>
-
                     <Row>
-                        <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
-                            <label className=''>Hình ảnh</label>
-                            <Upload {...props}>
-                                <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
-                            </Upload>
+                        <Col>
+                            <label>Giá nhập kho</label>
+                            <InputNumber
+
+                                addonAfter="$"
+                                onChange={e => onChange('entryPrice', e)}
+                            />
                         </Col>
+                        <Col></Col>
                     </Row>
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
