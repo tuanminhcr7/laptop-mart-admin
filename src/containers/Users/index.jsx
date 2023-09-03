@@ -4,6 +4,8 @@ import List from './List';
 import Api from '../../Apis';
 import { toast } from 'react-toastify';
 import { Spin } from 'antd';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Users = () => {
 
@@ -20,7 +22,7 @@ const Users = () => {
             setListUser(res?.data?.data)
             setLoading(false);
         }).then(err => {
-            toast.error('Có lỗi xảy ra');
+            toast.error(err?.response?.data?.error.description);
         });
     }, []);
 
@@ -42,6 +44,7 @@ const Users = () => {
                     </Spin>
                 </Col>
             </Row>
+            <ToastContainer />
         </div>
 
     );

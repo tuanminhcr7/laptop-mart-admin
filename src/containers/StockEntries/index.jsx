@@ -3,6 +3,8 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import List from './List';
 import Api from '../../Apis';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StockEntries = () => {
 
@@ -19,7 +21,7 @@ const StockEntries = () => {
             setListStockEntries(res?.data?.data);
             setLoading(false);
         }).catch(err => {
-
+            toast.error(err?.response?.data?.error.description);
         });
     }, []);
 
@@ -41,6 +43,7 @@ const StockEntries = () => {
                     </Spin>
                 </Col>
             </Row>
+            <ToastContainer />
         </div>
     );
 };

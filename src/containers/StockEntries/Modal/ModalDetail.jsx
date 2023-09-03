@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import Api from '../../../Apis';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const ModalDetail = ({ show, handleClose, dataChoose }) => {
 
@@ -14,7 +15,7 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
         Api.stockEntriesShow(dataChoose?.product_id, dataChoose?.id).then(res => {
             setDataStockEntryShow(res?.data?.data);
         }).catch(err => {
-
+            toast.error(err?.response?.data?.error.description);
         });
     }
 

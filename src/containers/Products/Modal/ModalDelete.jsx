@@ -2,7 +2,8 @@ import { Input } from 'antd';
 import React from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import Api from '../../../Apis';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const ModalDelete = ({ show, handleClose, dataChoose }) => {
 
@@ -11,7 +12,7 @@ const ModalDelete = ({ show, handleClose, dataChoose }) => {
             toast.success("Xóa thành công!");
             handleClose();
         }).catch(err => {
-            toast.error("Có lỗi");
+            toast.error(err?.response?.data?.error.description);
         })
     }
 

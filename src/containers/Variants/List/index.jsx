@@ -8,7 +8,7 @@ import ModalUpdate from '../Modal/ModalUpdate';
 import ModalDelete from '../Modal/ModalDelete';
 // import Modal from '../Modal';
 
-const List = ({ productId, data, onRefresh }) => {
+const List = ({ productId, data, onRefresh, productName }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
@@ -72,6 +72,15 @@ const List = ({ productId, data, onRefresh }) => {
             dataIndex: 'weight',
             key: 'weight',
             width: 100,
+        },
+        {
+            title: 'Màu sắc',
+            dataIndex: 'weight',
+            key: 'weight',
+            width: 100,
+            render: (text, record) => {
+                return <div className='p-3' style={{ background: `#${record?.color?.hex_code}` }}></div>
+            }
         },
         {
             title: 'Số lượng bán',
@@ -224,8 +233,8 @@ const List = ({ productId, data, onRefresh }) => {
                 columns={columns}
                 scroll={{ x: 400 }}
             />
-            <ModalUpdate productId={productId} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
-            <ModalDelete productId={productId} show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
+            <ModalUpdate productName={productName} productId={productId} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
+            <ModalDelete productName={productName} productId={productId} show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
         </div>
     );
 };

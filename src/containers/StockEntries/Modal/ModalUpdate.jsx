@@ -42,7 +42,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
             handleClose();
             toast.success("Cập nhật thành công!");
         }).catch(err => {
-
+            toast.error(err?.response?.data?.error.description);
         });
     }
 

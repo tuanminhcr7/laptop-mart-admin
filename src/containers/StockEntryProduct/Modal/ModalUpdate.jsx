@@ -24,7 +24,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) 
         Api.stockEntriesShow(productId, dataChoose?.id).then(res => {
             setDataStockEntryShow(res?.data?.data);
         }).catch(err => {
-
+            toast.error(err?.response?.data?.error.description);
         });
     }
     console.log(dataStockEntryShow);

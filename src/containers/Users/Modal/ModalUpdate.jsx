@@ -26,12 +26,12 @@ const ModalUpdate = ({ show, handleClose, handleShow, dataChoose, onRefresh }) =
             phone: formData?.phone,
             status: formData?.status
         }
-        Api.userUpdate(formData?.id, payload).then(res => {
+        Api.userUpdate(dataChoose?.id, payload).then(res => {
             onRefresh();
             handleClose();
             toast.success("Cập nhật thành công!");
         }).catch(err => {
-            toast.error("Cập nhật thất bại");
+            toast.error(err?.response?.data?.error.description);
         });
     }
     return (

@@ -4,6 +4,9 @@ import List from './List';
 import ModalCreate from './Modal/ModalCreate';
 import { useParams } from 'react-router-dom';
 import Api from '../../Apis';
+import { Spin } from 'antd';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Variant = () => {
 
@@ -11,18 +14,32 @@ const Variant = () => {
     const url = useParams();
     const productId = url?.id
     const [dataProductVariant, setDataProductVariant] = useState([]);
+    const [productName, setProductName] = useState(null);
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         name: null,
-        weight: null,
+        weight: null || 0,
         description: null,
-        price: null,
         colorId: null,
+        displayId: null,
+        graphicsCardId: null,
+        manufacturerId: null,
+        operatingSystemId: null,
+        processorId: null,
+        ramId: null,
+        price: null || 0,
+        refreshRateId: null,
+        resolutionId: null,
+        storageId: null,
         images: [],
     });
 
     const getDataProductVariant = async () => {
+        setLoading(true);
         Api.productShow(productId).then(res => {
             setDataProductVariant(res?.data?.data?.variants);
+            setProductName(res?.data?.data?.name);
+            setLoading(false);
         }).catch(err => {
 
         });
@@ -47,7 +64,17 @@ const Variant = () => {
             weight: null,
             description: null,
             colorId: null,
-            images: null,
+            displayId: null,
+            graphicsCardId: null,
+            manufacturerId: null,
+            operatingSystemId: null,
+            processorId: null,
+            ramId: null,
+            price: null,
+            refreshRateId: null,
+            resolutionId: null,
+            storageId: null,
+            images: [],
         });
         onRefresh();
     }
@@ -63,10 +90,13 @@ const Variant = () => {
                         </Col>
                     </Row>
 
-                    <List onRefresh={onRefresh} productId={productId} data={dataProductVariant} />
-                    <ModalCreate productId={productId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
+                    <Spin spinning={loading}>
+                        <List productName={productName} onRefresh={onRefresh} productId={productId} data={dataProductVariant} />
+                    </Spin>
+                    <ModalCreate productName={productName} productId={productId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
                 </Col>
             </Row>
+            <ToastContainer />
         </div>
     );
 };

@@ -48,7 +48,7 @@ const Orders = () => {
             // setListOrder(res?.data?.data);
             setLoading(false);
         }).catch(err => {
-            toast.error("Có lỗi xảy ra");
+            toast.error(err?.response?.data?.error.description);
         });
     }, []);
 

@@ -15,11 +15,7 @@ const List = ({ data, onRefresh }) => {
     const [dataUpdate, setDataUpdate] = useState(null);
 
     const handleShowModalDetail = (value) => {
-        Api.userDetail(value?.id).then(res => {
-            setDataDetail(res?.data?.data);
-        }).catch(err => {
-            toast.error('Có lỗi xảy ra');
-        });
+        setDataDetail(value)
         setShowModalDetail(true);
     }
     const handleCloseModalDetail = () => {

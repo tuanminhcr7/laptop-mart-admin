@@ -2,16 +2,17 @@ import { Input } from 'antd';
 import React from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import Api from '../../../Apis';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const ModalDelete = ({ productId, show, handleClose, dataChoose }) => {
+const ModalDelete = ({ productId, show, handleClose, dataChoose, productName }) => {
 
     const onFinish = () => {
         Api.productVariantsDelete(productId, dataChoose?.id).then(res => {
-            toast("Xóa thành công!");
+            toast.success("Xóa thành công!");
             handleClose();
         }).catch(err => {
-
+            toast.error(err?.message)
         });
     }
 
@@ -19,7 +20,7 @@ const ModalDelete = ({ productId, show, handleClose, dataChoose }) => {
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Xóa biến thể</Modal.Title>
+                    <Modal.Title>Xóa biến thể sản phẩm: {productName}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>
@@ -37,6 +38,7 @@ const ModalDelete = ({ productId, show, handleClose, dataChoose }) => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <ToastContainer />
         </div>
     );
 };

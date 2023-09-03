@@ -11,7 +11,7 @@ const SideNav = () => {
         Api.profile().then(res => {
             setDataProfile({ ...dataProfile, firstName: res?.data?.data?.firstName, lastName: res?.data?.data?.lastName })
         }).catch(err => {
-            toast.error('Có lỗi xảy ra!');
+            toast.error(err?.response?.data?.error.description);
         });
     }, []);
 

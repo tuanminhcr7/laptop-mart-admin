@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import Api from '../../../Apis';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const ModalDetail = ({ show, handleClose, dataChoose }) => {
 
@@ -12,9 +13,8 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
     const getProductShow = async () => {
         Api.productShow(dataChoose?.id).then(res => {
             setDataProductShow(res?.data?.data);
-            console.log(res);
         }).catch(err => {
-            console.log(err);
+            toast.error(err?.response?.data?.error.description);
         })
     };
 

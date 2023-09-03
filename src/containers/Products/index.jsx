@@ -5,6 +5,8 @@ import ModalCreate from './Modal/ModalCreate';
 import Api from '../../Apis';
 import { Link } from 'react-router-dom';
 import { Spin } from 'antd';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Products = () => {
 
@@ -65,7 +67,7 @@ const Products = () => {
             setListProduct(res?.data?.data);
             setLoading(false);
         }).catch(err => {
-            console.log(err);
+            toast.error(err?.response?.data?.error.description);
         });
     }, []);
 
@@ -93,6 +95,7 @@ const Products = () => {
                     <ModalCreate show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
                 </Col>
             </Row>
+            <ToastContainer />
         </div>
 
     );

@@ -8,6 +8,21 @@ import { toast } from 'react-toastify';
 
 const ModalDetail = ({ show, handleClose, handleShow, dataChoose }) => {
 
+    const [dataUserDetail, setDataUserDetail] = useState(null);
+
+    const getDataUserDetail = async () => {
+        Api.userDetail(dataChoose?.id).then(res => {
+            setDataUserDetail(res?.data?.data);
+        }).catch(err => {
+            toast.error(err?.response?.data?.error.description);
+        })
+    }
+
+    useEffect(() => {
+        show && getDataUserDetail();
+        show !== true && setDataUserDetail(null)
+    }, [show])
+
     return (
         <div>
 

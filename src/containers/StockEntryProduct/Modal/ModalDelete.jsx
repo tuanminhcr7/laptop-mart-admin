@@ -11,7 +11,7 @@ const ModalDelete = ({ show, handleClose, dataChoose, productId, productName }) 
             toast.success("Xóa thành công!");
             handleClose();
         }).catch(err => {
-
+            toast.error(err?.response?.data?.error.description);
         });
     }
 

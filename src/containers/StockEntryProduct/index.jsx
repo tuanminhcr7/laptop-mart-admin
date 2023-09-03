@@ -5,6 +5,8 @@ import List from './List';
 import Api from '../../Apis';
 import { useParams } from 'react-router-dom';
 import ModalCreate from './Modal/ModalCreate';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StockEntryProduct = () => {
 
@@ -28,7 +30,7 @@ const StockEntryProduct = () => {
         Api.productShow(productId).then(res => {
             setDataProductShow(res?.data?.data)
         }).catch(err => {
-
+            toast.error(err?.response?.data?.error.description);
         });
     }
 
@@ -51,7 +53,7 @@ const StockEntryProduct = () => {
             setListStockEntryProduct(res?.data?.data);
             setLoading(false);
         }).catch(err => {
-
+            toast.error(err?.response?.data?.error.description);
         });
     });
 
@@ -86,7 +88,7 @@ const StockEntryProduct = () => {
                 </Col>
                 <ModalCreate productName={dataProductShow?.name} productId={productId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
             </Row>
-
+            <ToastContainer />
         </div>
     );
 };
