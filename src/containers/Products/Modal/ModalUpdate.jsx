@@ -1,4 +1,4 @@
-import { Image, Input, InputNumber, Select, Upload, message } from 'antd';
+import { Image, Input, InputNumber, Select, Spin, Upload, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import _ from 'lodash';
@@ -437,137 +437,8 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
             }
         ]
     });
-    const [dataProductShow, setDataProductShow] = useState({
-        "id": 6,
-        "parent_id": null,
-        "name": "Test API update",
-        "price": 1100,
-        "inventory": 32,
-        "quantity_sold": 0,
-        "weight": 1.1,
-        "description": "description",
-        "created_at": "2023-08-14T07:35:52.000Z",
-        "updated_at": "2023-08-15T08:31:18.000Z",
-        "deleted_at": null,
-        "images": [
-            {
-                "url": "https://storage.googleapis.com/products-service/products/6/images/20230814103313-pom.png"
-            }
-        ],
-        "color": {
-            "id": 2,
-            "name": "Trắng",
-            "hex_code": "F5F5F5"
-        },
-        "display": {
-            "id": 1,
-            "size": 13.4
-        },
-        "graphics_card": {
-            "id": 1,
-            "name": "VGA NVIDIA"
-        },
-        "manufacturer": {
-            "id": 1,
-            "name": "ACER"
-        },
-        "operating_system": {
-            "id": 1,
-            "name": "Windows"
-        },
-        "processor": {
-            "id": 1,
-            "name": "Intel Core i3"
-        },
-        "ram": {
-            "id": 1,
-            "size": 4
-        },
-        "refresh_rate": {
-            "id": 1,
-            "rate": 60
-        },
-        "resolution": {
-            "id": 2,
-            "name": "Full HD (1920x1080)"
-        },
-        "storage": {
-            "id": 1,
-            "type": "SSD",
-            "size": 128
-        },
-        "variants": [
-            {
-                "id": 27,
-                "parent_id": 6,
-                "name": null,
-                "price": 1000,
-                "inventory": 0,
-                "quantity_sold": 0,
-                "weight": 1,
-                "description": "description",
-                "created_at": "2023-08-14T09:02:51.000Z",
-                "updated_at": "2023-08-14T09:02:51.000Z",
-                "deleted_at": null,
-                "color": {
-                    "id": 1,
-                    "name": "Đen",
-                    "hex_code": "333333"
-                },
-                "images": [
-                    {
-                        "url": "https://storage.googleapis.com/products-service/products/27/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-                    }
-                ]
-            },
-            {
-                "id": 28,
-                "parent_id": 6,
-                "name": "Test API - variant 2",
-                "price": 1000,
-                "inventory": 8,
-                "quantity_sold": 0,
-                "weight": 1.05,
-                "description": "description variant 2",
-                "created_at": "2023-08-14T09:05:48.000Z",
-                "updated_at": "2023-08-15T07:56:27.000Z",
-                "deleted_at": null,
-                "color": {
-                    "id": 3,
-                    "name": "Bạc",
-                    "hex_code": "B0B0B0"
-                },
-                "images": [
-                    {
-                        "url": "https://storage.googleapis.com/products-service/products/28/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-                    }
-                ]
-            },
-            {
-                "id": 29,
-                "parent_id": 6,
-                "name": "Test API - variant 3",
-                "price": 1000,
-                "inventory": 0,
-                "quantity_sold": 0,
-                "weight": 1.05,
-                "description": "description variant 3",
-                "created_at": "2023-08-14T09:10:16.000Z",
-                "updated_at": "2023-08-14T09:10:16.000Z",
-                "deleted_at": null,
-                "color": {
-                    "id": 2,
-                    "name": "Trắng",
-                    "hex_code": "F5F5F5"
-                },
-                "images": [
-                    {
-                        "url": "https://storage.googleapis.com/products-service/products/29/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-                    }
-                ]
-            }
-        ]
-    });
+    const [dataProductShow, setDataProductShow] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         name: dataProductShow?.name,
@@ -587,6 +458,8 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
         images: dataProductShow?.images[0]?.url
     });
 
+    console.log(dataProductShow);
+
     const getMasterData = async () => {
         Api.masterData().then(res => {
             // setMasterData(res?.data?.data);
@@ -595,28 +468,21 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
         });
     }
     const getProductShow = async () => {
+        setLoading(true);
         Api.productShow(dataChoose?.id).then(res => {
             setDataProductShow(res?.data?.data);
-
+            setLoading(false);
         }).catch(err => {
             console.log(err);
-        })
+        });
+
     };
 
     useEffect(() => {
         show && getMasterData();
         show && getProductShow();
-    })
-
-    const handleShowModalVariant = (value) => {
-        setShowModalVarial(true);
-        setItemVariantSelected(value)
-    }
-
-    const handleCloseModalVariant = () => {
-        setShowModalVarial(false);
-        setItemVariantSelected(null);
-    }
+        show !== true && setDataProductShow(null);
+    }, [show])
 
     const onChange = (name, value) => {
         const newDataChoose = _.clone(dataProductShow);
@@ -653,20 +519,22 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
     }
 
     const props = {
-        name: 'file',
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        headers: {
-            authorization: 'authorization-text',
-        },
         onChange(info) {
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
-            } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
+            const payload = new FormData();
+
+
+            console.log(info.fileList);
+
+            info.fileList.forEach((image) => {
+                payload.append('images', image.originFileObj)
+            })
+
+            console.log(payload);
+            Api.productUploadImages(payload).then(res => {
+                setFormData({ ...formData, images: [res?.data?.data[0]] })
+            }).catch(err => {
+                toast.error("Upload không thành công!");
+            });
         },
     };
 
@@ -677,202 +545,210 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                     <Modal.Title>Cập nhật sản phẩm</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
-                        <Col>
-                            <label>Tên sản phẩm</label>
-                            <Input defaultValue={dataProductShow?.name} onChange={e => onChange('name', e.target.value)} />
-                        </Col>
-                        <Col>
-                            <label>Mô tả</label>
-                            <TextArea
-                                defaultValue={dataProductShow?.description}
-                                onChange={e => {
-                                    onChange('description', e.target.value);
-                                }}
-                            />
-                        </Col>
-                    </Row>
-                    <Row className='mt-3'>
-                        <Col>
-                            <label>Cân nặng</label>
-                            <InputNumber
-                                defaultValue={dataProductShow?.weight}
-                                addonAfter="Kg"
-                                onChange={e => onChange('weight', e)}
-                            />
-                        </Col>
-                        <Col>
-                            <label>Màu sắc</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.color?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('colorId', e)}
-                            >
-                                {masterData?.colors?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                    {dataProductShow &&
+                        <>
+                            <Spin spinning={loading}>
+                                <Row>
+                                    <Col>
+                                        <label>Tên sản phẩm</label>
+                                        <Input defaultValue={dataProductShow?.name} onChange={e => onChange('name', e.target.value)} />
+                                    </Col>
+                                    <Col>
+                                        <label>Mô tả</label>
+                                        <TextArea
+                                            defaultValue={dataProductShow?.description}
+                                            onChange={e => {
+                                                onChange('description', e.target.value);
+                                            }}
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row className='mt-3'>
+                                    <Col>
+                                        <label>Cân nặng</label>
+                                        <InputNumber
+                                            defaultValue={dataProductShow?.weight}
+                                            addonAfter="Kg"
+                                            onChange={e => onChange('weight', e)}
+                                        />
+                                    </Col>
+                                    <Col>
+                                        <label>Màu sắc</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.color?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('colorId', e)}
+                                        >
+                                            {masterData?.colors?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.name}</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
+                                            })}
+                                        </Select>
+                                    </Col>
 
-                    </Row>
-                    <Row className='mt-3'>
-                        <Col>
-                            <label>Độ phân giải</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.resolution?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('resolutionId', e)}
-                            >
-                                {masterData?.resolutions?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                </Row>
+                                <Row className='mt-3'>
+                                    <Col>
+                                        <label>Độ phân giải</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.resolution?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('resolutionId', e)}
+                                        >
+                                            {masterData?.resolutions?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.name}</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Giá</label>
-                            <InputNumber
-                                defaultValue={dataProductShow?.price}
-                                addonAfter="VND"
-                                onChange={e => onChange('price', e)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Màn hình</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.display?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('displayId', e)}
-                            >
-                                {masterData?.displays?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size}</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                    <Col>
+                                        <label>Giá</label>
+                                        <InputNumber
+                                            defaultValue={dataProductShow?.price}
+                                            addonAfter="VND"
+                                            onChange={e => onChange('price', e)}
+                                        />
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <label>Màn hình</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.display?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('displayId', e)}
+                                        >
+                                            {masterData?.displays?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.size} Inches</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Card đồ họa</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.graphics_card?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('graphicsCardId', e)}
-                            >
-                                {masterData?.graphics_cards?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                    <Col>
+                                        <label>Card đồ họa</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.graphics_card?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('graphicsCardId', e)}
+                                        >
+                                            {masterData?.graphics_cards?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.name}</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Hãng sản xuất</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.manufacturer?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('manufacturerId', e)}
-                            >
-                                {masterData?.manufacturers?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <label>Hãng sản xuất</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.manufacturer?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('manufacturerId', e)}
+                                        >
+                                            {masterData?.manufacturers?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.name}</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Hệ điều hành</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.operating_system?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('operatingSystemId', e)}
-                            >
-                                {masterData?.operating_systems?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                    <Col>
+                                        <label>Hệ điều hành</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.operating_system?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('operatingSystemId', e)}
+                                        >
+                                            {masterData?.operating_systems?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.name}</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Bộ vi xử lý</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.processor?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('processorId', e)}
-                            >
-                                {masterData?.processors?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <label>Bộ vi xử lý</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.processor?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('processorId', e)}
+                                        >
+                                            {masterData?.processors?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.name}</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Ram</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.ram?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('ramId', e)}
-                            >
-                                {masterData?.rams?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} GB</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                    <Col>
+                                        <label>Ram</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.ram?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('ramId', e)}
+                                        >
+                                            {masterData?.rams?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.size} GB</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Tần số quét</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.refresh_rate?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('refreshRateId', e)}
-                            >
-                                {masterData?.refresh_rates?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.rate} Hz</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <label>Tần số quét</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.refresh_rate?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('refreshRateId', e)}
+                                        >
+                                            {masterData?.refresh_rates?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.rate} Hz</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Bộ nhớ</label><br />
-                            <Select
-                                defaultValue={dataProductShow?.storage?.id}
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('storageId', e)}
-                            >
-                                {masterData?.storages?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} GB - {item?.type}</Select.Option>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                    <Col>
+                                        <label>Bộ nhớ</label><br />
+                                        <Select
+                                            defaultValue={dataProductShow?.storage?.id}
+                                            style={{ width: '100%' }}
+                                            onChange={e => onChange('storageId', e)}
+                                        >
+                                            {masterData?.storages?.map(item => {
+                                                return <Select.Option value={item?.id}>{item?.size} GB - {item?.type}</Select.Option>
 
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
-                            <label className=''>Hình ảnh</label>
-                            <Image
-                                width={100}
-                                preview={false}
-                                src={dataProductShow?.images[0]?.url}
-                            />
-                            <Upload {...props}>
-                                <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
-                            </Upload>
-                        </Col>
+                                            })}
+                                        </Select>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
+                                        <label className=''>Hình ảnh</label>
+                                        <Image
+                                            width={100}
+                                            preview={false}
+                                            src={dataProductShow?.images[0]?.url}
+                                        />
+                                        <Upload {...props}>
+                                            <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
+                                        </Upload>
+                                    </Col>
 
-                    </Row>
-                    <Row>
-                        <Col className='mt-2' style={{ display: 'flex', justifyContent: 'end' }}>
-                            {/* <Button variant='success' onClick={e => handleShowModalVariant(dataProductShow)}>Biến thể</Button> */}
-                            <Button variant='success'>
-                                <Link style={{ color: '#fff' }} to={`/products/${dataProductShow?.id}/variants`}>Biến thể</Link>
-                            </Button>
-                        </Col>
-                    </Row>
+                                </Row>
+                                <Row>
+                                    <Col className='mt-2' style={{ display: 'flex', justifyContent: 'end' }}>
+                                        {/* <Button variant='success' onClick={e => handleShowModalVariant(dataProductShow)}>Biến thể</Button> */}
+                                        <Button variant='success'>
+                                            <Link style={{ color: '#fff' }} to={`/products/${dataProductShow?.id}/variants`}>Biến thể</Link>
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </Spin>
+                        </>
+                    }
+
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>

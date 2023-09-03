@@ -494,20 +494,22 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh }) =>
     }
 
     const props = {
-        name: 'file',
-        action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-        headers: {
-            authorization: 'authorization-text',
-        },
         onChange(info) {
-            if (info.file.status !== 'uploading') {
-                console.log(info.file, info.fileList);
-            }
-            if (info.file.status === 'done') {
-                message.success(`${info.file.name} file uploaded successfully`);
-            } else if (info.file.status === 'error') {
-                message.error(`${info.file.name} file upload failed.`);
-            }
+            const payload = new FormData();
+
+
+            // console.log(info.fileList);
+
+            info.fileList.forEach((image) => {
+                payload.append('images', image.originFileObj)
+            })
+
+            // console.log(payload);
+            Api.productUploadImages(payload).then(res => {
+                setFormData({ ...formData, images: [res?.data?.data[0]] })
+            }).catch(err => {
+                toast.error("Upload không thành công!");
+            });
         },
     };
 

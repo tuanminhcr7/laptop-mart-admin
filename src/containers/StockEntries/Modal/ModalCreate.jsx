@@ -60,180 +60,30 @@ const ModalCreate = ({ show, handleClose, formData, setFormData }) => {
                 <Modal.Body>
                     <Row>
                         <Col>
-                            <label>Tên sản phẩm</label>
+                            <label>Số lượng</label>
                             <Input
 
-                                onChange={e => onChange('name', e.target.value)} />
+                                onChange={e => onChange('quantity', e.target.value)} />
                         </Col>
                         <Col>
-                            <label>Mô tả</label>
-                            <TextArea
-
-                                onChange={e => {
-                                    onChange('description', e.target.value);
-                                }}
+                            <label>Ngày nhập kho</label>
+                            <DatePicker
+                                style={{ width: '100%' }}
+                                format={'DD/MM/YYYY'}
+                                onChange={e => onChange('entryDatetime', e && moment(e).format('YYYY-MM-DD HH:mm:ss'))}
                             />
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <label>Cân nặng</label>
+                            <label>Giá nhập kho</label>
                             <InputNumber
 
-                                addonAfter="Kg"
-                                onChange={e => onChange('weight', e)}
+                                addonAfter="$"
+                                onChange={e => onChange('entryPrice', e)}
                             />
                         </Col>
-                        <Col>
-                            <label>Màu sắc</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('colorId', e)}
-                            >
-                                <Select.Option value={1}>Xanh</Select.Option>
-                                <Select.Option value={2}>Trắng</Select.Option>
-                                <Select.Option value={3}>Đen</Select.Option>
-                            </Select>
-                        </Col>
-
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Độ phân giải</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('resolutionId', e)}
-                            >
-                                <Select.Option value={1}>Full HD</Select.Option>
-                                <Select.Option value={2}>4K</Select.Option>
-                                <Select.Option value={3}>8K</Select.Option>
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Giá</label>
-                            <InputNumber
-
-                                addonAfter="VND"
-                                onChange={e => onChange('price', e)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Màn hình</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('displayId', e)}
-                            >
-                                <Select.Option value={1}>13 inches</Select.Option>
-                                <Select.Option value={2}>15.6 inches</Select.Option>
-                                <Select.Option value={3}>15.7 inches</Select.Option>
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Card đồ họa</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('graphicsCardId', e)}
-                            >
-                                <Select.Option value={1}>Full HD</Select.Option>
-                                <Select.Option value={2}>4K</Select.Option>
-                                <Select.Option value={3}>8K</Select.Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Hãng sản xuất</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('manufacturerId', e)}
-                            >
-                                <Select.Option value={1}>Dell</Select.Option>
-                                <Select.Option value={2}>Acer</Select.Option>
-                                <Select.Option value={3}>Asus</Select.Option>
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Hệ điều hành</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('operatingSystemId', e)}
-                            >
-                                <Select.Option value={1}>MacOS</Select.Option>
-                                <Select.Option value={2}>Window</Select.Option>
-                                <Select.Option value={3}>Linux</Select.Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Bộ vi xử lý</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('processorId', e)}
-                            >
-                                <Select.Option value={1}>Intel Core i3</Select.Option>
-                                <Select.Option value={2}>Intel Core i5</Select.Option>
-                                <Select.Option value={3}>Intel Core i7</Select.Option>
-                                <Select.Option value={4}>Intel Core i9</Select.Option>
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Ram</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('ramId', e)}
-                            >
-                                <Select.Option value={1}>4GB</Select.Option>
-                                <Select.Option value={2}>8GB</Select.Option>
-                                <Select.Option value={3}>16GB</Select.Option>
-                                <Select.Option value={4}>32GB</Select.Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Tần số quét</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('refreshRateId', e)}
-                            >
-                                <Select.Option value={1}>60 Hz</Select.Option>
-                                <Select.Option value={2}>75 Hz</Select.Option>
-                                <Select.Option value={3}>120 Hz</Select.Option>
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Bộ nhớ</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('storageId', e)}
-                            >
-                                <Select.Option value={1}>500 GB</Select.Option>
-                                <Select.Option value={2}>1 TB</Select.Option>
-                                <Select.Option value={3}>2 TB</Select.Option>
-                                <Select.Option value={4}>2.5 TB</Select.Option>
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
-                            <label className=''>Hình ảnh</label>
-                            <Upload {...props}>
-                                <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
-                            </Upload>
-                        </Col>
+                        <Col></Col>
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>

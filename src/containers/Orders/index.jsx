@@ -56,13 +56,17 @@ const Orders = () => {
         getListOrder();
     }, []);
 
+    const onRefresh = () => {
+        getListOrder();
+    }
+
     return (
         <div>
             <Row>
                 <Col className='mt-2'>
                     <h3>Quản lý đơn hàng</h3>
                     <Spin spinning={loading}>
-                        <List data={listOrder} />
+                        <List onRefresh={onRefresh} data={listOrder} />
                     </Spin>
                 </Col>
             </Row>

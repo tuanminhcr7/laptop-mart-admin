@@ -1,9 +1,27 @@
 import { Input, InputNumber, Select } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
+import Api from '../../../Apis';
+import moment from 'moment';
 
 const ModalDetail = ({ show, handleClose, dataChoose }) => {
+
+    const [dataStockEntryShow, setDataStockEntryShow] = useState(null);
+
+
+    const getDataStockEntryShow = async () => {
+        Api.stockEntriesShow(dataChoose?.product_id, dataChoose?.id).then(res => {
+            setDataStockEntryShow(res?.data?.data);
+        }).catch(err => {
+
+        });
+    }
+
+    useEffect(() => {
+        show && getDataStockEntryShow();
+        show !== true && setDataStockEntryShow(null);
+    }, [show]);
 
     return (
         <div>
@@ -12,50 +30,29 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
                     <Modal.Title>Chi tiết sản phẩm</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
-                        <Col>
-                            <label>Tên sản phẩm</label>
-                            <Input disabled defaultValue={dataChoose?.name} />
-                        </Col>
-                    </Row>
-                    <Row className='mt-3'>
-                        <Col>
-                            <label>Mô tả</label>
-                            <TextArea
-                                disabled
-                                value={dataChoose?.description}
-                            />
-                        </Col>
-                    </Row>
-                    <Row className='mt-3'>
-                        <Col>
-                            <label>Cân nặng</label>
-                            <InputNumber
-                                disabled
-                                defaultValue={dataChoose?.weight}
-                                addonAfter="Kg"
-                            />
-                        </Col>
-                        <Col>
-                            <label>Màu sắc</label><br />
-                            <Input disabled value={dataChoose?.color} />
-                        </Col>
+                    {dataStockEntryShow &&
+                        <>
+                            <Row>
+                                <Col>
+                                    <label>Số lượng</label>
+                                    <div>{dataStockEntryShow?.quantity}</div>
 
-                    </Row>
-                    <Row className='mt-3'>
-                        <Col>
-                            <label>Độ phân giải</label><br />
-                            <Input disabled value={dataChoose?.resolution} />
-                        </Col>
-                        <Col>
-                            <label>Giá</label>
-                            <InputNumber
-                                disabled
-                                value={dataChoose?.price}
-                                addonAfter="VND"
-                            />
-                        </Col>
-                    </Row>
+                                </Col>
+                                <Col>
+                                    <label>Ngày nhập kho</label>
+                                    <div>{moment(dataStockEntryShow?.entry_datetime).format("DD/MM/YYYY HH:mm:ss")}</div>
+
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <label>Giá nhập kho</label>
+                                    <div>{dataStockEntryShow?.entry_price}</div>
+                                </Col>
+                                <Col></Col>
+                            </Row>
+                        </>
+                    }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleClose}>

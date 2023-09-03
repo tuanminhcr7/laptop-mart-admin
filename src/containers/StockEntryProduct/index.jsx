@@ -9,7 +9,6 @@ import ModalCreate from './Modal/ModalCreate';
 const StockEntryProduct = () => {
 
     const param = useParams();
-    console.log(param);
     const productId = param?.id;
     const [showModalCreate, setShowModalCreate] = useState(false);
     const [params, setParams] = useState({
@@ -22,24 +21,16 @@ const StockEntryProduct = () => {
         entryPrice: null
     })
     const [loading, setLoading] = useState(false);
-    const [listStockEntryProduct, setListStockEntryProduct] = useState([
-        {
-            "id": 6,
-            "product_id": 6,
-            "quantity": 22,
-            "entry_datetime": "2023-08-15T12:30:22.000Z",
-            "entry_price": 800,
-            "created_at": "2023-08-15T08:09:49.000Z"
-        },
-        {
-            "id": 1,
-            "product_id": 6,
-            "quantity": 10,
-            "entry_datetime": "2023-08-15T12:22:22.000Z",
-            "entry_price": 800,
-            "created_at": "2023-08-15T06:22:02.000Z"
-        }
-    ]);
+    const [listStockEntryProduct, setListStockEntryProduct] = useState([]);
+    const [dataProductShow, setDataProductShow] = useState(null);
+
+    const getProductShow = async () => {
+        Api.productShow(productId).then(res => {
+            setDataProductShow(res?.data?.data)
+        }).catch(err => {
+
+        });
+    }
 
     const handleShowModalCreate = () => {
         setShowModalCreate(true);
@@ -47,7 +38,6 @@ const StockEntryProduct = () => {
     const handleCloseModalCreate = () => {
         setShowModalCreate(false);
         setFormData({
-            ...formData,
             quantity: null,
             entryDatetime: null,
             entryPrice: null
@@ -56,8 +46,10 @@ const StockEntryProduct = () => {
     };
 
     const getListStockEntryProduct = useCallback(async () => {
+        setLoading(true);
         Api.stockEntriesListProduct(productId, params).then(res => {
-            // setListStockEntryProduct(res?.data?.data);
+            setListStockEntryProduct(res?.data?.data);
+            setLoading(false);
         }).catch(err => {
 
         });
@@ -65,6 +57,7 @@ const StockEntryProduct = () => {
 
     useEffect(() => {
         getListStockEntryProduct();
+        getProductShow();
     }, []);
 
     const onRefresh = () => {
@@ -79,15 +72,19 @@ const StockEntryProduct = () => {
                         <Col>
                             <h3>Quản lý kho của sản phẩm</h3>
                         </Col>
+
+                    </Row>
+                    <Row>
                         <Col style={{ display: 'flex', justifyContent: 'end' }}>
                             <Button variant='success' onClick={handleShowModalCreate}>Thêm mới</Button>
                         </Col>
                     </Row>
+
                     <Spin spinning={loading}>
-                        <List productId={productId} data={listStockEntryProduct} />
+                        <List onRefresh={onRefresh} productName={dataProductShow?.name} productId={productId} data={listStockEntryProduct} />
                     </Spin>
                 </Col>
-                <ModalCreate productId={productId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
+                <ModalCreate productName={dataProductShow?.name} productId={productId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
             </Row>
 
         </div>

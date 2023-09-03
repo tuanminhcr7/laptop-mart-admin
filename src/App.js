@@ -11,7 +11,6 @@ import Users from './containers/Users';
 import Login from './containers/Login';
 import Products from './containers/Products';
 import NotFound from './components/NotFound';
-import Register from './containers/Register';
 import Variants from './containers/Variants';
 import Orders from './containers/Orders';
 import StockEntries from './containers/StockEntries';
@@ -40,7 +39,6 @@ function App() {
             element={<Login />}
           />
         </Route>
-        {/* <Route path="/auth/register" element={<Register />} /> */}
 
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -1,6 +1,6 @@
 import { Input, InputNumber, Select } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import Api from '../../../Apis';
 
@@ -43,6 +43,11 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
         });
     }
 
+    useEffect(() => {
+        show && getDataOrderDetail();
+        show !== true && setDataOrderDetail(null);
+    }, [show]);
+
     return (
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
@@ -71,20 +76,6 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
                             <div>{dataOrderDetail?.total_amount}</div>
                         </Col>
 
-                    </Row>
-                    <Row className='mt-3'>
-                        <Col>
-                            <label>Độ phân giải</label><br />
-                            <Input disabled value={dataChoose?.resolution} />
-                        </Col>
-                        <Col>
-                            <label>Giá</label>
-                            <InputNumber
-                                disabled
-                                value={dataChoose?.price}
-                                addonAfter="VND"
-                            />
-                        </Col>
                     </Row>
                 </Modal.Body>
                 <Modal.Footer>

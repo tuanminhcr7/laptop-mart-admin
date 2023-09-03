@@ -9,7 +9,7 @@ import ModalDetail from '../Modal/ModalDetail';
 import ModalDelete from '../Modal/ModalDelete';
 // import Modal from '../Modal';
 
-const List = ({ data, productId }) => {
+const List = ({ data, productId, productName, onRefresh }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
@@ -23,6 +23,7 @@ const List = ({ data, productId }) => {
     const handleCloseModalDetail = () => {
         setShowModalDetail(false);
         setDataChoose(null);
+        onRefresh();
     }
 
     const handleShowModalUpdate = (value) => {
@@ -32,6 +33,7 @@ const List = ({ data, productId }) => {
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
         setDataChoose(null);
+        onRefresh();
     }
     const handleShowModalDelete = (value) => {
         setShowModalDelete(true);
@@ -40,6 +42,7 @@ const List = ({ data, productId }) => {
     const handleCloseModalDelete = () => {
         setShowModalDelete(false);
         setDataChoose(null);
+        onRefresh();
     }
 
     const columns = [
@@ -60,7 +63,7 @@ const List = ({ data, productId }) => {
             width: 200,
             fixed: 'left',
             render: (text, record) => {
-                return record?.product?.name;
+                return productName;
             }
         },
         {
@@ -179,9 +182,9 @@ const List = ({ data, productId }) => {
                 scroll={{ x: 400 }}
             />
 
-            <ModalDetail productId={productId} show={showModalDetail} handleClose={handleCloseModalDetail} dataChoose={dataChoose} />
-            <ModalUpdate productId={productId} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
-            <ModalDelete productId={productId} show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
+            <ModalDetail productName={productName} productId={productId} show={showModalDetail} handleClose={handleCloseModalDetail} dataChoose={dataChoose} />
+            <ModalUpdate productName={productName} productId={productId} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
+            <ModalDelete productName={productName} productId={productId} show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
         </div>
     );
 };

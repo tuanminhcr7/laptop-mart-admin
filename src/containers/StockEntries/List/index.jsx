@@ -9,7 +9,7 @@ import ModalDetail from '../Modal/ModalDetail';
 import ModalDelete from '../Modal/ModalDelete';
 // import Modal from '../Modal';
 
-const List = ({ data }) => {
+const List = ({ data, onRefresh }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
@@ -23,6 +23,7 @@ const List = ({ data }) => {
     const handleCloseModalDetail = () => {
         setShowModalDetail(false);
         setDataChoose(null);
+        onRefresh();
     }
 
     const handleShowModalUpdate = (value) => {
@@ -32,6 +33,7 @@ const List = ({ data }) => {
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
         setDataChoose(null);
+        onRefresh();
     }
     const handleShowModalDelete = (value) => {
         setShowModalDelete(true);
@@ -40,6 +42,7 @@ const List = ({ data }) => {
     const handleCloseModalDelete = () => {
         setShowModalDelete(false);
         setDataChoose(null);
+        onRefresh();
     }
 
     const columns = [
@@ -135,65 +138,12 @@ const List = ({ data }) => {
         }
     ];
 
-    const fakeData = [
-        {
-            id: 6,
-            product_id: 6,
-            quantity: 22,
-            entry_datetime: "2023-08-15T12:30:22.000Z",
-            entry_price: 800,
-            created_at: "2023-08-15T08:09:49.000Z",
-            product: {
-                id: 6,
-                name: "Test API update",
-                price: 1100,
-                inventory: 32,
-                parent: null
-            }
-        },
-        {
-            id: 4,
-            product_id: 28,
-            quantity: 8,
-            entry_datetime: "2023-08-15T12:30:22.000Z",
-            entry_price: 800,
-            created_at: "2023-08-15T07:54:27.000Z",
-            product: {
-                id: 28,
-                name: "Test API - variant 2",
-                price: 1000,
-                inventory: 8,
-                parent: {
-                    id: 6,
-                    name: "Test API update",
-                    price: 1100,
-                    inventory: 32
-                }
-            }
-        },
-        {
-            id: 1,
-            product_id: 6,
-            quantity: 10,
-            entry_datetime: "2023-08-15T12:22:22.000Z",
-            entry_price: 800,
-            created_at: "2023-08-15T06:22:02.000Z",
-            product: {
-                id: 6,
-                name: "Test API update",
-                price: 1100,
-                inventory: 32,
-                parent: null
-            }
-        }
-    ]
-
     return (
         <div className='mt-3'>
 
             <Table
                 bordered
-                dataSource={fakeData}
+                dataSource={data}
                 columns={columns}
                 scroll={{ x: 400 }}
             />

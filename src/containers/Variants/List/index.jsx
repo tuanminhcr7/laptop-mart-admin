@@ -74,15 +74,6 @@ const List = ({ productId, data, onRefresh }) => {
             width: 100,
         },
         {
-            title: 'Màu sắc',
-            dataIndex: 'color',
-            key: 'color',
-            width: 100,
-            render: (text, record) => {
-                return <div style={{ background: `#${record?.color?.hex_code}`, padding: 15 }}></div>;
-            }
-        },
-        {
             title: 'Số lượng bán',
             dataIndex: 'quantity_sold',
             key: 'weight',

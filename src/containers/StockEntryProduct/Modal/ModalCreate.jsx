@@ -9,7 +9,7 @@ import Api from '../../../Apis';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 
-const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) => {
+const ModalCreate = ({ show, handleClose, formData, setFormData, productId, productName }) => {
 
     const onChange = (name, value) => {
         const newFormData = _.clone(formData);
@@ -51,7 +51,7 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId }) =>
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Thêm mới sản phẩm kho</Modal.Title>
+                    <Modal.Title>Thêm mới sản phẩm kho: {productName}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Row>

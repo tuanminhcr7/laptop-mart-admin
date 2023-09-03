@@ -3,16 +3,11 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { styled } from 'styled-components';
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
-// import ModalUpdate from '../Modal/ModalUpdate';
 import ModalDetail from '../Modal/ModalDetail';
-// import ModalDelete from '../Modal/ModalDelete';
-// import Modal from '../Modal';
 
-const List = ({ data }) => {
+const List = ({ data, onRefresh }) => {
 
-    const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
-    const [showModalDelete, setShowModalDelete] = useState(false);
     const [dataChoose, setDataChoose] = useState({});
 
     const handleShowModalDetail = (value) => {
@@ -22,23 +17,7 @@ const List = ({ data }) => {
     const handleCloseModalDetail = () => {
         setShowModalDetail(false);
         setDataChoose(null);
-    }
-
-    const handleShowModalUpdate = (value) => {
-        setShowModalUpdate(true);
-        setDataChoose(value);
-    }
-    const handleCloseModalUpdate = () => {
-        setShowModalUpdate(false);
-        setDataChoose(null);
-    }
-    const handleShowModalDelete = (value) => {
-        setShowModalDelete(true);
-        setDataChoose(value);
-    }
-    const handleCloseModalDelete = () => {
-        setShowModalDelete(false);
-        setDataChoose(null);
+        onRefresh();
     }
 
     const columns = [
@@ -134,12 +113,6 @@ const List = ({ data }) => {
             render: (record, value) => {
                 return (
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
-                        {/* <Button
-                            variant='success'
-                            onClick={() => {
-                                handleShowModalUpdate(record);
-                            }}
-                        ><EditOutlined className='mb-2' /></Button> */}
                         <Button
                             className='mx-1'
                             variant='warning'
@@ -147,48 +120,42 @@ const List = ({ data }) => {
                                 handleShowModalDetail(record);
                             }}
                         ><EyeOutlined className='mb-2' /></Button>
-                        {/* <Button
-                            variant='danger'
-                            onClick={() => {
-                                handleShowModalDelete(record);
-                            }}
-                        ><DeleteOutlined className='mb-2' /></Button> */}
                     </div>
                 );
             }
         }
     ];
 
-    const fakeData = [
-        {
-            id: 2,
-            user_id: 2,
-            status: 2,
-            recipient_name: "Nguyen Van A",
-            recipient_phone: "0123456789",
-            total_amount: 2100,
-            shipping_address: "219 Trung Kinh, Yen Hoa, Cau Giay, Ha Noi",
-            note: "Giao hang nhanh",
-            created_at: "2023-08-29T08:45:08.000Z",
-            order_items: [
-                {
-                    id: 2,
-                    order_id: 2,
-                    product_id: 28,
-                    quantity: 1,
-                    price: 1000
-                },
-                {
-                    id: 1,
-                    order_id: 2,
-                    product_id: 6,
-                    quantity: 1,
-                    price: 1100
-                }
-            ],
-            order_payment: null
-        }
-    ]
+    // const fakeData = [
+    //     {
+    //         id: 2,
+    //         user_id: 2,
+    //         status: 2,
+    //         recipient_name: "Nguyen Van A",
+    //         recipient_phone: "0123456789",
+    //         total_amount: 2100,
+    //         shipping_address: "219 Trung Kinh, Yen Hoa, Cau Giay, Ha Noi",
+    //         note: "Giao hang nhanh",
+    //         created_at: "2023-08-29T08:45:08.000Z",
+    //         order_items: [
+    //             {
+    //                 id: 2,
+    //                 order_id: 2,
+    //                 product_id: 28,
+    //                 quantity: 1,
+    //                 price: 1000
+    //             },
+    //             {
+    //                 id: 1,
+    //                 order_id: 2,
+    //                 product_id: 6,
+    //                 quantity: 1,
+    //                 price: 1100
+    //             }
+    //         ],
+    //         order_payment: null
+    //     }
+    // ]
 
     return (
         <div className='mt-3'>

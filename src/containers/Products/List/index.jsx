@@ -1,4 +1,4 @@
-import { Table } from 'antd';
+import { Image, Table } from 'antd';
 import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { styled } from 'styled-components';
@@ -13,7 +13,7 @@ const List = ({ data, onRefresh }) => {
     const [showModalUpdate, setShowModalUpdate] = useState(false);
     const [showModalDetail, setShowModalDetail] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
-    const [dataChoose, setDataChoose] = useState({});
+    const [dataChoose, setDataChoose] = useState(null);
 
     const handleShowModalDetail = (value) => {
         setShowModalDetail(true);
@@ -75,12 +75,16 @@ const List = ({ data, onRefresh }) => {
             width: 100,
         },
         {
-            title: 'Màu sắc',
+            title: 'Hình ảnh',
             dataIndex: 'color',
             key: 'color',
             width: 100,
             render: (text, record) => {
-                return <div style={{ background: `#${record?.color?.hex_code}`, padding: 15 }}></div>;
+                return <Image
+                    preview={false}
+                    src={record?.images[0]?.url}
+                    width={50}
+                />;
             }
         },
         {
@@ -154,7 +158,7 @@ const List = ({ data, onRefresh }) => {
         <div className='mt-3'>
             <Table
                 bordered
-                dataSource={fakeData}
+                dataSource={data}
                 columns={columns}
                 scroll={{ x: 400 }}
             />

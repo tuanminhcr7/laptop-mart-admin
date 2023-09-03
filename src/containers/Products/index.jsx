@@ -4,6 +4,7 @@ import List from './List';
 import ModalCreate from './Modal/ModalCreate';
 import Api from '../../Apis';
 import { Link } from 'react-router-dom';
+import { Spin } from 'antd';
 
 const Products = () => {
 
@@ -13,7 +14,7 @@ const Products = () => {
     });
 
     const [listProduct, setListProduct] = useState([]);
-
+    const [loading, setLoading] = useState(false);
     const [showModalCreate, setShowModalCreate] = useState(false);
     const [formData, setFormData] = useState({
         name: null,
@@ -53,15 +54,19 @@ const Products = () => {
             refreshRateId: null,
             resolutionId: null,
             storageId: null,
-            images: null,
+            images: [],
         });
         onRefresh();
     };
 
     const getListProduct = useCallback(async () => {
+        setLoading(true);
         Api.productList(params).then(res => {
             setListProduct(res?.data?.data);
-        })
+            setLoading(false);
+        }).catch(err => {
+            console.log(err);
+        });
     }, []);
 
     useEffect(() => {
@@ -82,8 +87,9 @@ const Products = () => {
                             <Button variant='success' onClick={handleShowModalCreate}>Thêm mới</Button>
                         </Col>
                     </Row>
-
-                    <List onRefresh={onRefresh} data={listProduct} />
+                    <Spin spinning={loading}>
+                        <List onRefresh={onRefresh} data={listProduct} />
+                    </Spin>
                     <ModalCreate show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
                 </Col>
             </Row>
