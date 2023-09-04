@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import Cookies from 'js-cookie';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Header = () => {
     const navigate = useNavigate();
@@ -10,7 +10,7 @@ const Header = () => {
     const handleLogout = () => {
         Cookies.remove('token');
         toast.success('Đăng xuất thành công!');
-        navigate('/auth/login');
+        window.location.replace('/auth/login');
 
     }
 
@@ -38,6 +38,7 @@ const Header = () => {
                 </ul>
 
             </nav>
+            <ToastContainer />
 
         </div>
     );

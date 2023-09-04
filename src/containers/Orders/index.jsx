@@ -10,42 +10,13 @@ const Orders = () => {
         page: null,
         pageSize: null
     });
-    const [listOrder, setListOrder] = useState([
-        {
-            "id": 2,
-            "user_id": 2,
-            "status": 0,
-            "recipient_name": "Nguyen Van A",
-            "recipient_phone": "0123456789",
-            "total_amount": 2100,
-            "shipping_address": "219 Trung Kinh, Yen Hoa, Cau Giay, Ha Noi",
-            "note": "Giao hang nhanh",
-            "created_at": "2023-08-29T08:45:08.000Z",
-            "order_items": [
-                {
-                    "id": 2,
-                    "order_id": 2,
-                    "product_id": 28,
-                    "quantity": 1,
-                    "price": 1000
-                },
-                {
-                    "id": 1,
-                    "order_id": 2,
-                    "product_id": 6,
-                    "quantity": 1,
-                    "price": 1100
-                }
-            ],
-            "order_payment": null
-        }
-    ]);
+    const [listOrder, setListOrder] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const getListOrder = useCallback(async () => {
         setLoading(true);
         Api.orderList(params).then(res => {
-            // setListOrder(res?.data?.data);
+            setListOrder(res?.data?.data);
             setLoading(false);
         }).catch(err => {
             toast.error(err?.response?.data?.error.description);

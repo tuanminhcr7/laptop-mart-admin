@@ -20,10 +20,10 @@ const Users = () => {
         setLoading(true);
         Api.userList(params).then(res => {
             setListUser(res?.data?.data)
-            setLoading(false);
         }).then(err => {
             toast.error(err?.response?.data?.error.description);
         });
+        await setLoading(false);
     }, []);
 
     useEffect(() => {

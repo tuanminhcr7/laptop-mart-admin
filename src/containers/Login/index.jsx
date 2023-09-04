@@ -33,9 +33,8 @@ const Login = () => {
             toast.success("Đăng nhập thành công!");
             Cookies.set('token', res?.data?.data?.token);
             // Cookies.set('account', payload?.account)
-            setTimeout(() => {
-                navigate('/');
-            }, 2000);
+            window.location.replace('/');
+
 
         }).catch(err => {
             toast.error("Đăng nhập thất bại!");

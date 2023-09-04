@@ -22,19 +22,26 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route element={<><Header /><SideNav /><div style={{ paddingLeft: 280, paddingRight: 50 }}><Outlet /></div><Footer /></>}>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Home />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/products/:id/variants" element={<Variants />} />
-          <Route path="/products/stock-entries" element={<StockEntries />} />
-          <Route path="/products/:id/stock-entries" element={<StockEntryProduct />} />
-          <Route path="/orders" element={<Orders />} />
+        <Route
+          element={
+            !Cookies.get('token') ? <Navigate to='/auth/login' /> : <Outlet />
+          }
+        >
+          <Route element={<><Header /><SideNav /><div style={{ paddingLeft: 280, paddingRight: 50 }}><Outlet /></div><Footer /></>}>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Home />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/products/:id/variants" element={<Variants />} />
+            <Route path="/products/stock-entries" element={<StockEntries />} />
+            <Route path="/products/:id/stock-entries" element={<StockEntryProduct />} />
+            <Route path="/orders" element={<Orders />} />
+          </Route>
         </Route>
 
         <Route element={Cookies.get('token') ? <Navigate to='/' /> : <Outlet />}>
           <Route
+            index
             path='auth/login'
             element={<Login />}
           />

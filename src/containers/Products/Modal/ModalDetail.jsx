@@ -63,6 +63,17 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
                             <div>{dataProductShow?.price}</div>
                         </Col>
                     </Row>
+                    <Row className='mt-3'>
+                        <Col>
+                            <label>Ram</label><br />
+                            <div>{dataProductShow?.ram?.size} GB</div>
+
+                        </Col>
+                        <Col>
+                            <label>Giá</label>
+                            <div>{dataProductShow?.storage?.size} - {dataProductShow?.storage?.type}</div>
+                        </Col>
+                    </Row>
                     <Row>
                         <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
                             <label className=''>Hình ảnh</label><br></br>

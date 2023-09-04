@@ -6,38 +6,11 @@ import Api from '../../../Apis';
 
 const ModalDetail = ({ show, handleClose, dataChoose }) => {
 
-    const [dataOrderDetail, setDataOrderDetail] = useState({
-        "id": 2,
-        "user_id": 2,
-        "status": 0,
-        "recipient_name": "Nguyen Van A",
-        "recipient_phone": "0123456789",
-        "total_amount": 2100,
-        "shipping_address": "219 Trung Kinh, Yen Hoa, Cau Giay, Ha Noi",
-        "note": "Giao hang nhanh",
-        "created_at": "2023-08-29T08:45:08.000Z",
-        "order_items": [
-            {
-                "id": 1,
-                "order_id": 2,
-                "product_id": 6,
-                "quantity": 1,
-                "price": 1100
-            },
-            {
-                "id": 2,
-                "order_id": 2,
-                "product_id": 28,
-                "quantity": 1,
-                "price": 1000
-            }
-        ],
-        "order_payment": null
-    });
+    const [dataOrderDetail, setDataOrderDetail] = useState(null);
 
     const getDataOrderDetail = async () => {
         Api.orderShow(dataChoose?.id).then(res => {
-            // setDataOrderDetail(res?.data?.data);
+            setDataOrderDetail(res?.data?.data);
         }).catch(err => {
 
         });
@@ -72,7 +45,7 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
                             <div>{dataOrderDetail?.shipping_address}</div>
                         </Col>
                         <Col>
-                            <label>Tổng cộng</label><br />
+                            <label>Số tiền</label><br />
                             <div>{dataOrderDetail?.total_amount}</div>
                         </Col>
 
