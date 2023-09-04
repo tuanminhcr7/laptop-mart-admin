@@ -15,6 +15,8 @@ import Variants from './containers/Variants';
 import Orders from './containers/Orders';
 import StockEntries from './containers/StockEntries';
 import StockEntryProduct from './containers/StockEntryProduct';
+import StockEntryProductVariant from './containers/StockEntryProductVariant';
+import Shipping from './containers/Shipping';
 
 
 function App() {
@@ -36,6 +38,8 @@ function App() {
             <Route path="/products/stock-entries" element={<StockEntries />} />
             <Route path="/products/:id/stock-entries" element={<StockEntryProduct />} />
             <Route path="/orders" element={<Orders />} />
+            <Route path="/products/:idProduct/stock-entries/variants/:idProductVariant" element={<StockEntryProductVariant />} />
+            <Route path="/products/shipping/:orderId" element={<Shipping />} />
           </Route>
         </Route>
 

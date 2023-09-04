@@ -90,7 +90,6 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId, prod
                         <Col>
                             <label>Cân nặng</label>
                             <InputNumber
-                                defaultValue={0}
                                 addonAfter="Kg"
                                 onChange={e => onChange('weight', e)}
                             />
@@ -110,129 +109,12 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId, prod
 
                     </Row>
                     <Row>
-                        <Col>
-                            <label>Độ phân giải</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('resolutionId', e)}
-                            >
-                                {masterData?.resolutions?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Giá</label>
+                        <Col className='mt-2'>
+                            <label>Giá</label><br />
                             <InputNumber
-                                defaultValue={0}
                                 addonAfter="VND"
                                 onChange={e => onChange('price', e)}
                             />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Màn hình</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('displayId', e)}
-                            >
-                                {masterData?.displays?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} Inches</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Card đồ họa</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('graphicsCardId', e)}
-                            >
-                                {masterData?.graphics_cards?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Hãng sản xuất</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('manufacturerId', e)}
-                            >
-                                {masterData?.manufacturers?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Hệ điều hành</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('operatingSystemId', e)}
-                            >
-                                {masterData?.operating_systems?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Bộ vi xử lý</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('processorId', e)}
-                            >
-                                {masterData?.processors?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Ram</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('ramId', e)}
-                            >
-                                {masterData?.rams?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} GB</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Tần số quét</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('refreshRateId', e)}
-                            >
-                                {masterData?.refresh_rates?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.rate} Hz</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Bộ nhớ</label><br />
-                            <Select
-
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('storageId', e)}
-                            >
-                                {masterData?.storages?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} GB - {item?.type}</Select.Option>
-                                })}
-                            </Select>
                         </Col>
                     </Row>
                     <Row>

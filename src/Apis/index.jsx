@@ -84,6 +84,22 @@ const Api = {
     },
 
     // Product Variant
+    productVariantList(productId, params) {
+        return axios.get(`${domain}/products/${productId}/product-variants?${qs.stringify(params)}`, {
+            headers: {
+                Authorization: 'Bearer ' + Cookies.get('token'),
+                'Content-Type': 'application/json'
+            }
+        });
+    },
+    productVariantShow(productId, productVariantId) {
+        return axios.get(`${domain}/products/${productId}/product-variants/${productVariantId}`, {
+            headers: {
+                Authorization: 'Bearer ' + Cookies.get('token'),
+                'Content-Type': 'application/json'
+            }
+        });
+    },
     productVariantsCreate(productId, payload) {
         return axios.post(`${domain}/products/${productId}/product-variants`, payload, {
             headers: {
@@ -180,7 +196,25 @@ const Api = {
     // Master Data
     masterData() {
         return axios.get(`${domain}/products/master-data`);
-    }
+    },
+
+    // Shipping
+    shippingShow(orderId) {
+        return axios.get(`${domain}/shippings/${orderId}`, {
+            headers: {
+                Authorization: 'Bearer ' + Cookies.get('token'),
+                'Content-Type': 'application/json'
+            }
+        })
+    },
+    shippingUpdate(orderId, payload) {
+        return axios.patch(`${domain}/shippings/${orderId}`, payload, {
+            headers: {
+                Authorization: 'Bearer ' + Cookies.get('token'),
+                'Content-Type': 'application/json'
+            }
+        })
+    },
 }
 
 export default Api

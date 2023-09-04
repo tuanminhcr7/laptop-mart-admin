@@ -70,7 +70,7 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
 
                         </Col>
                         <Col>
-                            <label>Giá</label>
+                            <label>Ổ cứng</label>
                             <div>{dataProductShow?.storage?.size} - {dataProductShow?.storage?.type}</div>
                         </Col>
                     </Row>

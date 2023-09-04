@@ -34,11 +34,18 @@ const Variant = () => {
         images: [],
     });
 
+    const getDataProductShow = async () => {
+        Api.productShow(productId).then(res => {
+            setProductName(res?.data?.data?.name);
+        }).catch(err => {
+
+        });
+    }
+
     const getDataProductVariant = async () => {
         setLoading(true);
-        Api.productShow(productId).then(res => {
-            setDataProductVariant(res?.data?.data?.variants);
-            setProductName(res?.data?.data?.name);
+        Api.productVariantList(productId).then(res => {
+            setDataProductVariant(res?.data?.data);
             setLoading(false);
         }).catch(err => {
 
@@ -47,6 +54,7 @@ const Variant = () => {
 
     useEffect(() => {
         getDataProductVariant();
+        getDataProductShow();
     }, []);
 
     const onRefresh = () => {
@@ -64,16 +72,6 @@ const Variant = () => {
             weight: null,
             description: null,
             colorId: null,
-            displayId: null,
-            graphicsCardId: null,
-            manufacturerId: null,
-            operatingSystemId: null,
-            processorId: null,
-            ramId: null,
-            price: null,
-            refreshRateId: null,
-            resolutionId: null,
-            storageId: null,
             images: [],
         });
         onRefresh();

@@ -6,49 +6,49 @@ import Api from '../../../Apis';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 
-const ModalDetail = ({ show, handleClose, dataChoose }) => {
+const ModalDetail = ({ show, handleClose, dataChoose, productName, productId }) => {
 
-    const [dataStockEntryShow, setDataStockEntryShow] = useState(null);
+    const [dataStockEntryShowProduct, setDataStockEntryShowProduct] = useState(null);
 
-
-    const getDataStockEntryShow = async () => {
-        Api.stockEntriesShow(dataChoose?.product_id, dataChoose?.id).then(res => {
-            setDataStockEntryShow(res?.data?.data);
+    const getDataStockEntryShowProduct = async () => {
+        Api.stockEntriesShow(productId, dataChoose?.id).then(res => {
+            setDataStockEntryShowProduct(res?.data?.data);
         }).catch(err => {
             toast.error(err?.response?.data?.error.description);
         });
     }
 
     useEffect(() => {
-        show && getDataStockEntryShow();
-        show !== true && setDataStockEntryShow(null);
-    }, [show]);
+        show && getDataStockEntryShowProduct();
+        show !== true && setDataStockEntryShowProduct(null);
+
+    }, [show])
 
     return (
         <div>
             <Modal backdrop={'static'} show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Chi tiết sản phẩm kho: {dataChoose?.product?.name}</Modal.Title>
+                    <Modal.Title>Chi tiết sản phẩm kho của: {productName}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {dataStockEntryShow &&
+                    {dataStockEntryShowProduct &&
                         <>
                             <Row>
                                 <Col>
                                     <label>Số lượng</label>
-                                    <div>{dataStockEntryShow?.quantity}</div>
+                                    <div>{dataStockEntryShowProduct?.quantity}</div>
 
                                 </Col>
                                 <Col>
                                     <label>Ngày nhập kho</label>
-                                    <div>{moment(dataStockEntryShow?.entry_datetime).format("DD/MM/YYYY HH:mm:ss")}</div>
+                                    <div>{moment(dataStockEntryShowProduct?.entry_datetime).format("DD/MM/YYYY HH:mm:ss")}</div>
 
                                 </Col>
                             </Row>
                             <Row>
                                 <Col>
                                     <label>Giá nhập kho</label>
-                                    <div>{dataStockEntryShow?.entry_price}</div>
+                                    <div>{dataStockEntryShowProduct?.entry_price}</div>
                                 </Col>
                                 <Col></Col>
                             </Row>
