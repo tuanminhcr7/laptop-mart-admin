@@ -44,24 +44,6 @@ const Shipping = () => {
     }
     const handleCloseModalUpdate = () => {
         setShowModalUpdate(false);
-        // setFormData({
-        //     ...formData,
-        //     name: null,
-        //     weight: null,
-        //     description: null,
-        //     colorId: null,
-        //     displayId: null,
-        //     graphicsCardId: null,
-        //     manufacturerId: null,
-        //     operatingSystemId: null,
-        //     processorId: null,
-        //     ramId: null,
-        //     price: null,
-        //     refreshRateId: null,
-        //     resolutionId: null,
-        //     storageId: null,
-        //     images: [],
-        // });
         setDataChoose(null)
         onRefresh();
     };
@@ -71,7 +53,9 @@ const Shipping = () => {
         Api.shippingShow(orderId).then(res => {
             setDataShippingShow(res?.data?.data);
         }).catch(err => {
-            toast.error(err?.response?.data?.error.description);
+            if (err?.response?.data?.code == 404) {
+                toast.error("Không tìm thấy đơn hàng");
+            }
         });
     }, []);
 
@@ -110,7 +94,7 @@ const Shipping = () => {
                     <Row>
                         <Col xs={2}></Col>
                         <Col>
-                            {dataShippingShow &&
+                            {dataShippingShow ?
                                 <>
                                     <Row>
                                         <Col>
@@ -161,7 +145,8 @@ const Shipping = () => {
                                             }}>Cập nhật</Button>
                                         </Col>
                                     </Row>
-                                </>
+                                </> :
+                                <div>Đơn hàng chưa thanh toán</div>
                             }
 
                         </Col>
