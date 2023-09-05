@@ -82,7 +82,7 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, prod
             Api.productUploadImages(payload).then(res => {
                 setFormData({ ...formData, images: [res?.data?.data[0]] })
             }).catch(err => {
-                toast.error("Upload không thành công!");
+                // toast.error("Upload không thành công!");
             });
         },
     };
