@@ -91,12 +91,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) 
                                     </Col>
                                     <Col>
                                         <label>Ngày nhập kho</label>
+                                        <div>{moment(dataStockEntryShow?.entry_datetime).format("DD/MM/YYYY")}</div>
                                         <Form.Item
                                             name={"entryDatetime"}
                                         >
-                                            <DatePicker
-                                                format={"DD/MM/YYYY"}
-                                            />
+                                            <input type='datetime-local' />
                                         </Form.Item>
                                     </Col>
                                 </Row>

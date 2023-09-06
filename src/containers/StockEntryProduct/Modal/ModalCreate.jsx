@@ -64,9 +64,7 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId, prod
                                 <Form.Item
                                     name={"entryDatetime"}
                                 >
-                                    <DatePicker
-                                        format={"DD/MM/YYYY"}
-                                    />
+                                    <input type='datetime-local' />
                                 </Form.Item>
                             </Col>
                         </Row>

@@ -127,30 +127,30 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                 <Row>
                                     <Col>
                                         <label>Ngày vận chuyển (Ước lượng)</label>
+                                        <div>{moment(data?.estimated_delivery_date).format("DD/MM/YYYY")}</div>
                                         <Form.Item
                                             name="estimatedDeliveryDate"
                                         >
-                                            <DatePicker
-                                                // defaultValue={moment(data?.estimated_delivery_date)}
-                                                format={"DD/MM/YYYY"}
-                                            />
+                                            <input type='datetime-local' />
+
                                         </Form.Item>
 
                                         {/* <div>{moment(data?.date).format("DD/MM/YYYY HH:mm:ss")}</div> */}
                                     </Col>
                                     <Col>
                                         <label>Ngày vận chuyển (Thực tế)</label>
+                                        <div>{moment(data?.actual_delivery_date).format("DD/MM/YYYY")}</div>
                                         <Form.Item
                                             name="actualDeliveryDate"
                                         >
-                                            {/* <input type='date' /> */}
+                                            <input type='datetime-local' />
 
-                                            <DatePicker
+                                            {/* <DatePicker
                                                 key={1}
                                                 // defaultValue={moment(data?.estimated_delivery_date)}
                                                 placeholder='Ngày vận chuyển'
                                                 format={"DD/MM/YYYY"}
-                                            />
+                                            /> */}
 
 
                                         </Form.Item>
