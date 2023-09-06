@@ -40,7 +40,10 @@ const Users = () => {
                 <Col className='mt-2'>
                     <h3>Quản lý người dùng</h3>
                     <Spin spinning={loading}>
-                        <List onRefresh={onRefresh} data={listUser} />
+                        <List
+                            onRefresh={onRefresh}
+                            data={listUser}
+                        />
                     </Spin>
                 </Col>
             </Row>

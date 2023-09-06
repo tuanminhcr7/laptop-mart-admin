@@ -179,12 +179,31 @@ const List = ({ data, productId, productName, onRefresh }) => {
                 bordered
                 dataSource={data}
                 columns={columns}
-                scroll={{ x: 400 }}
+                scroll={{ x: 400, y: 400 }}
+                pagination={false}
             />
 
-            <ModalDetail productName={productName} productId={productId} show={showModalDetail} handleClose={handleCloseModalDetail} dataChoose={dataChoose} />
-            <ModalUpdate productName={productName} productId={productId} show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
-            <ModalDelete productName={productName} productId={productId} show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
+            <ModalDetail
+                productName={productName}
+                productId={productId}
+                show={showModalDetail}
+                handleClose={handleCloseModalDetail}
+                dataChoose={dataChoose}
+            />
+            <ModalUpdate
+                productName={productName}
+                productId={productId}
+                show={showModalUpdate}
+                handleClose={handleCloseModalUpdate}
+                dataChoose={dataChoose}
+            />
+            <ModalDelete
+                productName={productName}
+                productId={productId}
+                show={showModalDelete}
+                handleClose={handleCloseModalDelete}
+                dataChoose={dataChoose}
+            />
         </div>
     );
 };

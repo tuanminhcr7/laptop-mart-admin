@@ -90,9 +90,17 @@ const Products = () => {
                         </Col>
                     </Row>
                     <Spin spinning={loading}>
-                        <List onRefresh={onRefresh} data={listProduct} />
+                        <List
+                            onRefresh={onRefresh}
+                            data={listProduct}
+                        />
                     </Spin>
-                    <ModalCreate show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
+                    <ModalCreate
+                        show={showModalCreate}
+                        handleClose={handleCloseModalCreate}
+                        formData={formData}
+                        setFormData={setFormData}
+                    />
                 </Col>
             </Row>
             <ToastContainer />

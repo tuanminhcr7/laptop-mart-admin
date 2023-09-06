@@ -1,4 +1,4 @@
-import { DatePicker, Input, InputNumber, Select, Upload, message } from 'antd';
+import { DatePicker, Form, Input, InputNumber, Select, Upload, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import _ from 'lodash';
@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import moment from 'moment';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
+import { Button as BtnUpdate } from 'antd'
 
 const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) => {
 
@@ -44,9 +45,12 @@ const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) 
         });
     }
 
-    const onFinish = () => {
-        console.log(formData);
-        const payload = { ...formData };
+    const onFinish = (value) => {
+        const payload = {
+            quantity: value?.quantity,
+            entryDatetime: moment(value?.entryDatetime)?._i,
+            entryPrice: value?.entryPrice
+        };
 
         Api.stockEntriesUpdate(productId, dataChoose?.id, payload).then(res => {
             toast.success("Cập nhật thành công!");
@@ -65,40 +69,65 @@ const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) 
                 <Modal.Body>
                     {dataStockEntryShow &&
                         <>
-                            <Row>
-                                <Col>
-                                    <label>Số lượng</label>
-                                    <Input
-                                        defaultValue={dataStockEntryShow?.quantity}
-                                        onChange={e => onChange('quantity', e.target.value)}
-                                    />
-                                </Col>
-                                <Col>
-                                    <label>Ngày nhập kho</label>
-                                    <DatePicker
-                                        defaultValue={moment(dataStockEntryShow?.entry_datetime)}
-                                        style={{ width: '100%' }}
-                                        format={'DD/MM/YYYY'}
-                                        onChange={e => onChange('entryDatetime', moment(e).format('YYYY-MM-DD HH:mm:ss'))}
-                                    />
-                                </Col>
-                            </Row>
-                            <Row>
-                                <Col>
-                                    <label>Giá nhập kho</label>
-                                    <InputNumber
-                                        defaultValue={dataStockEntryShow?.entry_price}
-                                        addonAfter="$"
-                                        onChange={e => onChange('entryPrice', e)}
-                                    />
-                                </Col>
-                                <Col></Col>
-                            </Row>
+                            <Form
+                                onFinish={onFinish}
+                                initialValues={{
+                                    quantity: dataStockEntryShow && dataStockEntryShow?.quantity,
+                                    entryDatetime: moment(dataStockEntryShow && dataStockEntryShow?.entry_datetime),
+                                    entryPrice: dataStockEntryShow && dataStockEntryShow?.entry_price
+                                }}
+                            >
+                                <Row>
+                                    <Col>
+                                        <label>Số lượng</label>
+                                        <Form.Item
+                                            name={"quantity"}
+                                        >
+                                            <Input
+
+                                            />
+                                        </Form.Item>
+
+                                    </Col>
+                                    <Col>
+                                        <label>Ngày nhập kho</label>
+                                        <Form.Item
+                                            name={"entryDatetime"}
+                                        >
+                                            <DatePicker
+                                                format={"DD/MM/YYYY"}
+                                            />
+                                        </Form.Item>
+                                    </Col>
+                                </Row>
+                                <Row>
+                                    <Col>
+                                        <label>Giá nhập kho</label>
+                                        <Form.Item
+                                            name={"entryPrice"}
+                                        >
+                                            <InputNumber
+                                                addonAfter="$"
+                                            />
+                                        </Form.Item>
+
+                                    </Col>
+                                    <Col></Col>
+                                </Row>
+                                <Row>
+                                    <Col style={{ display: 'flex', justifyContent: 'end' }}>
+                                        <Button variant="secondary" onClick={handleClose}>
+                                            Hủy
+                                        </Button>
+                                        <BtnUpdate className='mx-1 bg-primary' htmlType='submit'>Cập nhật</BtnUpdate>
+                                    </Col>
+                                </Row>
+                            </Form>
                         </>
                     }
 
                 </Modal.Body>
-                <Modal.Footer>
+                {/* <Modal.Footer>
                     <Button variant="secondary" onClick={e => {
                         handleClose();
                     }}>
@@ -107,7 +136,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) 
                     <Button variant="primary" onClick={onFinish}>
                         Cập nhật
                     </Button>
-                </Modal.Footer>
+                </Modal.Footer> */}
             </Modal>
         </div >
     );

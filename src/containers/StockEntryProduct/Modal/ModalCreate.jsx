@@ -1,5 +1,5 @@
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { DatePicker, Input, InputNumber, Select, Upload, message } from 'antd';
+import { DatePicker, Form, Input, InputNumber, Select, Upload, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import _ from 'lodash';
 import React, { useCallback, useEffect } from 'react';
@@ -8,6 +8,7 @@ import BtnUpload from 'antd/es/button';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import { Button as BtnUpdate } from 'antd'
 
 const ModalCreate = ({ show, handleClose, formData, setFormData, productId, productName }) => {
 
@@ -17,8 +18,12 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId, prod
         setFormData(newFormData);
     }
 
-    const onFinish = () => {
-        const payload = { ...formData };
+    const onFinish = (value) => {
+        const payload = {
+            quantity: value?.quantity,
+            entryDatetime: moment(value?.entryDatetime)?._i,
+            entryPrice: value?.entryPrice
+        };
         Api.stockEntriesCreate(productId, payload).then(res => {
             toast.success("Thêm mới thành công!");
             handleClose();
@@ -34,42 +39,69 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId, prod
                     <Modal.Title>Thêm mới sản phẩm kho: {productName}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
-                        <Col>
-                            <label>Số lượng</label>
-                            <Input
+                    <Form
+                        onFinish={onFinish}
+                        initialValues={{
+                            quantity: null,
+                            entryDatetime: null,
+                            entryPrice: null,
+                        }}
+                    >
+                        <Row>
+                            <Col>
+                                <label>Số lượng</label>
+                                <Form.Item
+                                    name={"quantity"}
+                                >
+                                    <Input
 
-                                onChange={e => onChange('quantity', e.target.value)} />
-                        </Col>
-                        <Col>
-                            <label>Ngày nhập kho</label>
-                            <DatePicker
-                                style={{ width: '100%' }}
-                                format={'DD/MM/YYYY'}
-                                onChange={e => onChange('entryDatetime', e && moment(e).format('YYYY-MM-DD HH:mm:ss'))}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Giá nhập kho</label>
-                            <InputNumber
+                                    />
+                                </Form.Item>
 
-                                addonAfter="$"
-                                onChange={e => onChange('entryPrice', e)}
-                            />
-                        </Col>
-                        <Col></Col>
-                    </Row>
+                            </Col>
+                            <Col>
+                                <label>Ngày nhập kho</label>
+                                <Form.Item
+                                    name={"entryDatetime"}
+                                >
+                                    <DatePicker
+                                        format={"DD/MM/YYYY"}
+                                    />
+                                </Form.Item>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Giá nhập kho</label>
+                                <Form.Item
+                                    name={"entryPrice"}
+                                >
+                                    <InputNumber
+                                        addonAfter="$"
+                                    />
+                                </Form.Item>
+
+                            </Col>
+                            <Col></Col>
+                        </Row>
+                        <Row>
+                            <Col style={{ display: 'flex', justifyContent: 'end' }}>
+                                <Button variant="secondary" onClick={handleClose}>
+                                    Hủy
+                                </Button>
+                                <BtnUpdate className='mx-1 bg-primary' htmlType='submit'>Cập nhật</BtnUpdate>
+                            </Col>
+                        </Row>
+                    </Form>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    {/* <Button variant="secondary" onClick={handleClose}>
                         Hủy
                     </Button>
                     <Button variant="primary" onClick={onFinish}>
                         Thêm mới
-                    </Button>
+                    </Button> */}
                 </Modal.Footer>
             </Modal>
         </div>

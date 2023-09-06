@@ -160,12 +160,24 @@ const List = ({ data, onRefresh }) => {
                 bordered
                 dataSource={data}
                 columns={columns}
-                scroll={{ x: 400 }}
+                scroll={{ x: 400, y: 400 }}
+                pagination={false}
             />
 
-            <ModalDetail show={showModalDetail} handleClose={handleCloseModalDetail} dataChoose={dataChoose} />
-            <ModalUpdate show={showModalUpdate} handleClose={handleCloseModalUpdate} dataChoose={dataChoose} />
-            <ModalDelete show={showModalDelete} handleClose={handleCloseModalDelete} dataChoose={dataChoose} />
+            <ModalDetail
+                show={showModalDetail}
+                handleClose={handleCloseModalDetail}
+                dataChoose={dataChoose}
+            />
+            <ModalUpdate
+                show={showModalUpdate}
+                handleClose={handleCloseModalUpdate}
+                dataChoose={dataChoose}
+            />
+            <ModalDelete show={showModalDelete}
+                handleClose={handleCloseModalDelete}
+                dataChoose={dataChoose}
+            />
         </div>
     );
 };

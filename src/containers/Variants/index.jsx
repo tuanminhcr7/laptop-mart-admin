@@ -89,9 +89,22 @@ const Variant = () => {
                     </Row>
 
                     <Spin spinning={loading}>
-                        <List productName={productName} onRefresh={onRefresh} productId={productId} data={dataProductVariant} />
+                        <List
+                            productName={productName}
+                            onRefresh={onRefresh}
+                            productId={productId}
+                            data={dataProductVariant}
+                        />
                     </Spin>
-                    <ModalCreate productName={productName} productId={productId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
+
+                    <ModalCreate
+                        productName={productName}
+                        productId={productId}
+                        show={showModalCreate}
+                        handleClose={handleCloseModalCreate}
+                        formData={formData}
+                        setFormData={setFormData}
+                    />
                 </Col>
             </Row>
             <ToastContainer />

@@ -85,10 +85,23 @@ const StockEntryProductVariant = () => {
                     </Row>
 
                     <Spin spinning={loading}>
-                        <List onRefresh={onRefresh} productName={dataProductVariantShow?.name} productId={productVariantId} data={listStockEntryProductVariant} />
+                        <List
+                            onRefresh={onRefresh}
+                            productName={dataProductVariantShow?.name}
+                            productId={productVariantId}
+                            data={listStockEntryProductVariant}
+                        />
                     </Spin>
                 </Col>
-                <ModalCreate productName={dataProductVariantShow?.name} productId={productVariantId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
+
+                <ModalCreate
+                    productName={dataProductVariantShow?.name}
+                    productId={productVariantId}
+                    show={showModalCreate}
+                    handleClose={handleCloseModalCreate}
+                    formData={formData}
+                    setFormData={setFormData}
+                />
             </Row>
             <ToastContainer />
         </div>

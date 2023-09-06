@@ -139,7 +139,8 @@ const List = ({ data, onRefresh }) => {
                 bordered
                 dataSource={data}
                 columns={columns}
-                scroll={{ x: 400 }}
+                scroll={{ x: 400, y: 400 }}
+                pagination={false}
             />
             <ModalUpdate
                 onRefresh={onRefresh}

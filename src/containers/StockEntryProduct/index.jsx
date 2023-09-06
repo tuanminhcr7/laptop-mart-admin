@@ -83,10 +83,22 @@ const StockEntryProduct = () => {
                     </Row>
 
                     <Spin spinning={loading}>
-                        <List onRefresh={onRefresh} productName={dataProductShow?.name} productId={productId} data={listStockEntryProduct} />
+                        <List
+                            onRefresh={onRefresh}
+                            productName={dataProductShow?.name}
+                            productId={productId}
+                            data={listStockEntryProduct}
+                        />
                     </Spin>
                 </Col>
-                <ModalCreate productName={dataProductShow?.name} productId={productId} show={showModalCreate} handleClose={handleCloseModalCreate} formData={formData} setFormData={setFormData} />
+                <ModalCreate
+                    productName={dataProductShow?.name}
+                    productId={productId}
+                    show={showModalCreate}
+                    handleClose={handleCloseModalCreate}
+                    formData={formData}
+                    setFormData={setFormData}
+                />
             </Row>
             <ToastContainer />
         </div>
