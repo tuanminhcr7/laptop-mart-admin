@@ -18,7 +18,7 @@ const ModalUpdate = ({ show, handleClose, handleShow, dataChoose, onRefresh }) =
     }
 
     const onFinish = () => {
-        console.log(formData);
+        // console.log(formData);
         const payload = {
             firstName: formData?.first_name,
             lastName: formData?.last_name,

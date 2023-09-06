@@ -11,18 +11,8 @@ import ModalDelete from '../Modal/ModalDelete';
 const List = ({ productId, data, onRefresh, productName }) => {
 
     const [showModalUpdate, setShowModalUpdate] = useState(false);
-    const [showModalDetail, setShowModalDetail] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [dataChoose, setDataChoose] = useState({});
-
-    const handleShowModalDetail = (value) => {
-        setShowModalDetail(true);
-        setDataChoose(value)
-    }
-    const handleCloseModalDetail = () => {
-        setShowModalDetail(false);
-        setDataChoose(null);
-    }
 
     const handleShowModalUpdate = (value) => {
         setShowModalUpdate(true);

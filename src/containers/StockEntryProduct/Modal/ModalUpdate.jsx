@@ -28,7 +28,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) 
             toast.error(err?.response?.data?.error.description);
         });
     }
-    console.log(dataStockEntryShow);
+    // console.log(dataStockEntryShow);
 
     useEffect(() => {
         show && getDataStockEntryShow();

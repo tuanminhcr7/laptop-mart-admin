@@ -34,25 +34,21 @@ const ModalDetail = ({ show, handleClose, handleShow, dataChoose }) => {
                     <Row>
                         <Col>
                             <label>First Name</label>
-                            {/* <Input disabled value={dataChoose?.first_name} /> */}
                             <p>{dataChoose?.first_name}</p>
                         </Col>
                         <Col>
                             <label>Last Name</label>
                             <p>{dataChoose?.last_name}</p>
-                            {/* <Input disabled value={dataChoose?.last_name} /> */}
                         </Col>
                     </Row>
                     <Row className='mt-3'>
                         <Col>
                             <label>Email</label>
                             <p>{dataChoose?.email}</p>
-                            {/* <Input disabled value={dataChoose?.email} /> */}
                         </Col>
                         <Col>
                             <label>Phone</label>
                             <p>{dataChoose?.phone}</p>
-                            {/* <Input disabled value={dataChoose?.phone} /> */}
                         </Col>
                     </Row>
                 </Modal.Body>

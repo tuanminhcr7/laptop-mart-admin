@@ -69,7 +69,6 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
     const onChange = (name, value) => {
         const newDataChoose = _.clone(data);
         newDataChoose[name] = value;
-        console.log(newDataChoose);
 
         setFormData({
             estimatedDeliveryDate: moment(newDataChoose?.estimatedDeliveryDate).format("YYYY-MM-DD HH:mm:ss"),
@@ -85,7 +84,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
     }, [event]);
 
     const onFinish = (value) => {
-        console.log(value);
+        // console.log(value);
         const payload = {
             estimatedDeliveryDate: moment(value?.estimatedDeliveryDate)._i,
             actualDeliveryDate: moment(value?.actualDeliveryDate)?._i,
@@ -93,7 +92,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
             note: value?.note,
             shippingStatusId: value?.shippingStatusId
         };
-        console.log(payload);
+        // console.log(payload);
         console.log(moment(value?.actualDeliveryDate)?._i);
         Api.shippingUpdate(dataChoose?.order_id, payload).then(res => {
             handleClose();

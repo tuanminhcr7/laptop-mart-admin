@@ -22,7 +22,7 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, prod
         colorId: dataProductVariantShow && dataProductVariantShow?.color?.id,
         images: dataProductVariantShow && dataProductVariantShow?.images && dataProductVariantShow?.images[0]?.url
     });
-    console.log(dataChoose);
+    // console.log(dataChoose);
 
     const getMasterData = async () => {
         Api.masterData().then(res => {
@@ -45,7 +45,7 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, prod
         show && getDataProductVariantShow();
         show !== true && setDataProductVariantShow(null);
     }, [show]);
-    console.log(dataProductVariantShow);
+    // console.log(dataProductVariantShow);
 
     const onChange = (name, value) => {
         setEvenOnChange(true);

@@ -79,7 +79,7 @@ const Shipping = () => {
         getDetailShipping();
     }
 
-    console.log(dataShippingShow);
+    // console.log(dataShippingShow);
 
     return (
         <div>

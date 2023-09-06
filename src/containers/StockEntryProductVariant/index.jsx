@@ -11,7 +11,6 @@ import 'react-toastify/dist/ReactToastify.css';
 const StockEntryProductVariant = () => {
 
     const param = useParams();
-    console.log(param);
     const productId = param?.idProduct;
     const productVariantId = param?.idProductVariant;
     const [showModalCreate, setShowModalCreate] = useState(false);

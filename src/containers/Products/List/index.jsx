@@ -138,22 +138,6 @@ const List = ({ data, onRefresh }) => {
         }
     ];
 
-    const fakeData = [
-        {
-            "id": 6,
-            "parent_id": null,
-            "name": "Test API update",
-            "price": 1100,
-            "inventory": 32,
-            "quantity_sold": 0,
-            "weight": 1.1,
-            "description": "description",
-            "created_at": "2023-08-14T07:35:52.000Z",
-            "updated_at": "2023-08-15T08:31:18.000Z",
-            "deleted_at": null
-        }
-    ]
-
     return (
         <div className='mt-3'>
             <Table

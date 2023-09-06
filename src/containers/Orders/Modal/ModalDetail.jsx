@@ -43,8 +43,6 @@ const ModalDetail = ({ show, handleClose, dataChoose }) => {
         }
     });
 
-    console.log(cartProducts);
-
 
     const columns = [
         {

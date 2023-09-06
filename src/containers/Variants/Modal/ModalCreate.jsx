@@ -45,14 +45,10 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId, prod
         onChange(info) {
             const payload = new FormData();
 
-
-            // console.log(info.fileList);
-
             info.fileList.forEach((image) => {
                 payload.append('images', image.originFileObj)
             })
 
-            // console.log(payload);
             Api.productUploadImages(payload).then(res => {
                 setFormData({ ...formData, images: [res?.data?.data[0]] })
             }).catch(err => {
@@ -121,7 +117,16 @@ const ModalCreate = ({ show, handleClose, formData, setFormData, productId, prod
                         <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
                             <label className=''>Hình ảnh</label>
                             <Upload {...props}>
-                                <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
+                                <BtnUpload
+                                    className='mb-2'
+                                    size='small'
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        marginLeft: 10
+                                    }}
+                                    icon={<UploadOutlined />}
+                                >Click to Upload</BtnUpload>
                             </Upload>
                         </Col>
                     </Row>
