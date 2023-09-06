@@ -34,21 +34,21 @@ const ModalDetail = ({ show, handleClose, handleShow, dataChoose }) => {
                     <Row>
                         <Col>
                             <label>First Name</label>
-                            <p>{dataChoose?.first_name}</p>
+                            <p>{dataUserDetail?.first_name}</p>
                         </Col>
                         <Col>
                             <label>Last Name</label>
-                            <p>{dataChoose?.last_name}</p>
+                            <p>{dataUserDetail?.last_name}</p>
                         </Col>
                     </Row>
                     <Row className='mt-3'>
                         <Col>
                             <label>Email</label>
-                            <p>{dataChoose?.email}</p>
+                            <p>{dataUserDetail?.email}</p>
                         </Col>
                         <Col>
                             <label>Phone</label>
-                            <p>{dataChoose?.phone}</p>
+                            <p>{dataUserDetail?.phone}</p>
                         </Col>
                     </Row>
                 </Modal.Body>

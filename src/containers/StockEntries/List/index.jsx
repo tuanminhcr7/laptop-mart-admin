@@ -87,7 +87,7 @@ const List = ({ data, onRefresh }) => {
             key: 'color',
             width: 100,
             render: (text, record) => {
-                return record?.product?.price;
+                return record?.product?.price.toLocaleString('it-IT') + " đ"
             }
         },
         {
@@ -95,6 +95,9 @@ const List = ({ data, onRefresh }) => {
             dataIndex: 'entry_price',
             key: 'weight',
             width: 150,
+            render: (text, record) => {
+                return text.toLocaleString('it-IT') + " đ"
+            }
         },
 
         {

@@ -16,23 +16,6 @@ const Variant = () => {
     const [dataProductVariant, setDataProductVariant] = useState([]);
     const [productName, setProductName] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [formData, setFormData] = useState({
-        name: null,
-        weight: null || 0,
-        description: null,
-        colorId: null,
-        displayId: null,
-        graphicsCardId: null,
-        manufacturerId: null,
-        operatingSystemId: null,
-        processorId: null,
-        ramId: null,
-        price: null || 0,
-        refreshRateId: null,
-        resolutionId: null,
-        storageId: null,
-        images: [],
-    });
 
     const getDataProductShow = async () => {
         Api.productShow(productId).then(res => {
@@ -66,14 +49,6 @@ const Variant = () => {
     }
     const handleCloseModalCreate = () => {
         setShowModalCreate(false);
-        setFormData({
-            ...formData,
-            name: null,
-            weight: null,
-            description: null,
-            colorId: null,
-            images: [],
-        });
         onRefresh();
     }
 
@@ -102,8 +77,6 @@ const Variant = () => {
                         productId={productId}
                         show={showModalCreate}
                         handleClose={handleCloseModalCreate}
-                        formData={formData}
-                        setFormData={setFormData}
                     />
                 </Col>
             </Row>

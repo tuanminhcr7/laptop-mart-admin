@@ -1,5 +1,5 @@
 import { LoadingOutlined, PlusOutlined, UploadOutlined } from '@ant-design/icons';
-import { Input, InputNumber, Select, Upload, message } from 'antd';
+import { Form, Image, Input, InputNumber, Select, Upload, message } from 'antd';
 import TextArea from 'antd/es/input/TextArea';
 import _ from 'lodash';
 import React, { useCallback, useEffect, useState } from 'react';
@@ -7,15 +7,12 @@ import { Button, Col, Modal, Row } from 'react-bootstrap';
 import BtnUpload from 'antd/es/button';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
+import BtnSubmit from '../../../components/BtnSubmit';
 
 const ModalCreate = ({ show, handleClose, formData, setFormData }) => {
 
     const [masterData, setMasterData] = useState(null);
-    const onChange = (name, value) => {
-        const newFormData = _.clone(formData);
-        newFormData[name] = value;
-        setFormData(newFormData);
-    }
+    const [productImage, setProductImage] = useState([]);
 
     const getMasterData = async () => {
         Api.masterData().then(res => {
@@ -29,8 +26,25 @@ const ModalCreate = ({ show, handleClose, formData, setFormData }) => {
         show && getMasterData();
     }, [show]);
 
-    const onFinish = () => {
-        const payload = { ...formData };
+    const onFinish = (value) => {
+        const payload = {
+            name: value?.name,
+            weight: value?.weight,
+            description: value?.description,
+            colorId: value?.colorId,
+            displayId: value?.displayId,
+            graphicsCardId: value?.graphicsCardId,
+            manufacturerId: value?.manufacturerId,
+            operatingSystemId: value?.operatingSystemId,
+            processorId: value?.processorId,
+            ramId: value?.ramId,
+            price: value?.price,
+            refreshRateId: value?.refreshRateId,
+            resolutionId: value?.resolutionId,
+            storageId: value?.storageId,
+            images: productImage
+        };
+        // console.log(payload);
 
         Api.productCreate(payload).then(res => {
             toast.success("Thêm mới thành công!");
@@ -53,7 +67,7 @@ const ModalCreate = ({ show, handleClose, formData, setFormData }) => {
 
             // console.log(payload);
             Api.productUploadImages(payload).then(res => {
-                setFormData({ ...formData, images: [res?.data?.data[0]] })
+                setProductImage([res?.data?.data[0]])
             }).catch(err => {
 
             });
@@ -67,190 +81,295 @@ const ModalCreate = ({ show, handleClose, formData, setFormData }) => {
                     <Modal.Title>Thêm mới sản phẩm</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <Row>
-                        <Col>
-                            <label>Tên sản phẩm</label>
-                            <Input
-                                required={true}
-                                onChange={e => onChange('name', e.target.value)} />
+                    <Form
+                        initialValues={{
+                            name: null,
+                            weight: null,
+                            description: null,
+                            colorId: null,
+                            displayId: null,
+                            graphicsCardId: null,
+                            manufacturerId: null,
+                            operatingSystemId: null,
+                            processorId: null,
+                            ramId: null,
+                            price: null,
+                            refreshRateId: null,
+                            resolutionId: null,
+                            storageId: null,
+                            images: productImage,
+                        }}
+                        onFinish={onFinish}
+                    >
+                        <Row>
+                            <Col>
+                                <label>Tên sản phẩm</label>
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"name"}>
+                                    <Input />
+                                </Form.Item>
 
-                        </Col>
-                        <Col>
-                            <label>Mô tả</label>
-                            <TextArea
+                            </Col>
+                            <Col>
+                                <label>Mô tả</label>
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"description"}>
+                                    <TextArea />
+                                </Form.Item>
 
-                                onChange={e => {
-                                    onChange('description', e.target.value);
-                                }}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Cân nặng</label>
-                            <InputNumber
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Cân nặng</label>
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"weight"}>
+                                    <InputNumber addonAfter="Kg" />
+                                </Form.Item>
 
-                                addonAfter="Kg"
-                                onChange={e => onChange('weight', e)}
-                            />
-                        </Col>
-                        <Col>
-                            <label>Màu sắc</label><br />
-                            <Select
+                            </Col>
+                            <Col>
+                                <label>Màu sắc</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"colorId"}>
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('colorId', e)}
-                            >
-                                {masterData?.colors?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
+                                    <Select
 
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Độ phân giải</label><br />
-                            <Select
+                                        style={{ width: '100%' }}
+                                    >
+                                        {masterData?.colors?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('resolutionId', e)}
-                            >
-                                {masterData?.resolutions?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Giá</label>
-                            <InputNumber
+                            </Col>
 
-                                addonAfter="VND"
-                                onChange={e => onChange('price', e)}
-                            />
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Màn hình</label><br />
-                            <Select
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Độ phân giải</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"resolutionId"}>
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('displayId', e)}
-                            >
-                                {masterData?.displays?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} Inches</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Card đồ họa</label><br />
-                            <Select
+                                    <Select
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('graphicsCardId', e)}
-                            >
-                                {masterData?.graphics_cards?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Hãng sản xuất</label><br />
-                            <Select
+                                        style={{ width: '100%' }}
+                                    >
+                                        {masterData?.resolutions?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
+                            </Col>
+                            <Col>
+                                <label>Giá</label>
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"price"}>
+                                    <InputNumber
+                                        addonAfter="VND"
+                                    />
+                                </Form.Item>
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('manufacturerId', e)}
-                            >
-                                {masterData?.manufacturers?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Hệ điều hành</label><br />
-                            <Select
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Màn hình</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"displayId"}>
+                                    <Select
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('operatingSystemId', e)}
-                            >
-                                {masterData?.operating_systems?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Bộ vi xử lý</label><br />
-                            <Select
+                                        style={{ width: '100%' }}
+                                    >
+                                        {masterData?.displays?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.size} Inches</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('processorId', e)}
-                            >
-                                {masterData?.processors?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.name}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Ram</label><br />
-                            <Select
+                            </Col>
+                            <Col>
+                                <label>Card đồ họa</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"graphicsCardId"}>
+                                    <Select
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('ramId', e)}
-                            >
-                                {masterData?.rams?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} GB</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <label>Tần số quét</label><br />
-                            <Select
+                                        style={{ width: '100%' }}
+                                    >
+                                        {masterData?.graphics_cards?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('refreshRateId', e)}
-                            >
-                                {masterData?.refresh_rates?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.rate} Hz</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                        <Col>
-                            <label>Bộ nhớ</label><br />
-                            <Select
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Hãng sản xuất</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"manufacturerId"}>
+                                    <Select
 
-                                style={{ width: '100%' }}
-                                onChange={e => onChange('storageId', e)}
-                            >
-                                {masterData?.storages?.map(item => {
-                                    return <Select.Option value={item?.id}>{item?.size} GB - {item?.type}</Select.Option>
-                                })}
-                            </Select>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
-                            <label className=''>Hình ảnh</label>
-                            <Upload {...props}>
-                                <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
-                            </Upload>
-                        </Col>
-                    </Row>
+                                        style={{ width: '100%' }}
+
+                                    >
+                                        {masterData?.manufacturers?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
+
+                            </Col>
+                            <Col>
+                                <label>Hệ điều hành</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"operatingSystemId"}>
+                                    <Select
+
+                                        style={{ width: '100%' }}
+                                    >
+                                        {masterData?.operating_systems?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
+
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Bộ vi xử lý</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name="processorId">
+                                    <Select
+
+                                        style={{ width: '100%' }}
+                                    >
+                                        {masterData?.processors?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
+
+                            </Col>
+                            <Col>
+                                <label>Ram</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"ramId"}>
+                                    <Select
+
+                                        style={{ width: '100%' }}
+                                    >
+                                        {masterData?.rams?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.size} GB</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
+
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <label>Tần số quét</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"refreshRateId"}>
+                                    <Select
+
+                                        style={{ width: '100%' }}
+
+                                    >
+                                        {masterData?.refresh_rates?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.rate} Hz</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
+
+                            </Col>
+                            <Col>
+                                <label>Bộ nhớ</label><br />
+                                <Form.Item
+                                    rules={[
+                                        { required: true, message: "Không được để trống" }
+                                    ]}
+                                    name={"storageId"}>
+                                    <Select
+
+                                        style={{ width: '100%' }}
+
+                                    >
+                                        {masterData?.storages?.map(item => {
+                                            return <Select.Option value={item?.id}>{item?.size} GB - {item?.type}</Select.Option>
+                                        })}
+                                    </Select>
+                                </Form.Item>
+
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
+                                <label className=''>Hình ảnh</label>
+                                <Image
+                                    width={100}
+                                    src={productImage}
+                                    preview={false}
+                                />
+                                <Form.Item>
+                                    <Upload {...props}>
+                                        <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
+                                    </Upload>
+                                </Form.Item>
+
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col style={{ display: 'flex', justifyContent: 'end' }}>
+                                <BtnSubmit title={"Thêm mới"} onclick={handleClose} />
+                            </Col>
+                        </Row>
+                    </Form>
+
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Hủy
-                    </Button>
-                    <Button variant="primary" onClick={onFinish}>
-                        Thêm mới
-                    </Button>
-                </Modal.Footer>
             </Modal>
         </div>
     );

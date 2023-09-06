@@ -10,6 +10,7 @@ import moment from 'moment';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
 import { Button as BtnUpdate } from 'antd'
+import BtnSubmit from '../../../components/BtnSubmit';
 
 const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) => {
 
@@ -114,28 +115,16 @@ const ModalUpdate = ({ show, handleClose, dataChoose, productId, productName }) 
                                     <Col></Col>
                                 </Row>
                                 <Row>
-                                    <Col style={{ display: 'flex', justifyContent: 'end' }}>
-                                        <Button variant="secondary" onClick={handleClose}>
-                                            Hủy
-                                        </Button>
-                                        <BtnUpdate className='mx-1 bg-primary' htmlType='submit'>Cập nhật</BtnUpdate>
+                                    <Col style={{ display: 'flex', justifyContent: "end" }}>
+                                        <BtnSubmit onclick={handleClose} title={"Cập nhật"} />
                                     </Col>
+
                                 </Row>
                             </Form>
                         </>
                     }
 
                 </Modal.Body>
-                <Modal.Footer>
-                    {/* <Button variant="secondary" onClick={e => {
-                        handleClose();
-                    }}>
-                        Hủy
-                    </Button>
-                    <Button variant="primary" onClick={onFinish}>
-                        Cập nhật
-                    </Button> */}
-                </Modal.Footer>
             </Modal>
         </div >
     );

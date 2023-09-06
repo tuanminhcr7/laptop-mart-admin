@@ -84,6 +84,9 @@ const List = ({ productId, data, onRefresh, productName }) => {
             dataIndex: 'price',
             key: 'weight',
             width: 120,
+            render: (text, record) => {
+                return text.toLocaleString('it-IT') + " đ"
+            }
         },
         {
             title: 'Hàng tồn kho',
@@ -124,13 +127,6 @@ const List = ({ productId, data, onRefresh, productName }) => {
                                 handleShowModalUpdate(record);
                             }}
                         ><EditOutlined className='mb-2' /></Button>
-                        {/* <Button
-                            className='mx-1'
-                            variant='warning'
-                            onClick={() => {
-                                handleShowModalDetail(record);
-                            }}
-                        ><EyeOutlined className='mb-2' /></Button> */}
                         <Button
                             variant='danger'
                             onClick={() => {
@@ -142,78 +138,6 @@ const List = ({ productId, data, onRefresh, productName }) => {
             }
         }
     ];
-
-    // const fakeData = [
-    //     {
-    //         id: 27,
-    //         parent_id: 6,
-    //         name: null,
-    //         price: 1000,
-    //         inventory: 0,
-    //         quantity_sold: 0,
-    //         weight: 1,
-    //         description: "description",
-    //         created_at: "2023-08-14T09:02:51.000Z",
-    //         updated_at: "2023-08-14T09:02:51.000Z",
-    //         deleted_at: null,
-    //         color: {
-    //             id: 1,
-    //             name: "Đen",
-    //             hex_code: "333333"
-    //         },
-    //         images: [
-    //             {
-    //                 url: "https://storage.googleapis.com/products-service/products/27/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         id: 28,
-    //         parent_id: 6,
-    //         name: "Test API - variant 2",
-    //         price: 1000,
-    //         inventory: 8,
-    //         quantity_sold: 0,
-    //         weight: 1.05,
-    //         description: "description variant 2",
-    //         created_at: "2023-08-14T09:05:48.000Z",
-    //         updated_at: "2023-08-15T07:56:27.000Z",
-    //         deleted_at: null,
-    //         color: {
-    //             id: 3,
-    //             name: "Bạc",
-    //             hex_code: "B0B0B0"
-    //         },
-    //         images: [
-    //             {
-    //                 url: "https://storage.googleapis.com/products-service/products/28/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         id: 29,
-    //         parent_id: 6,
-    //         name: "Test API - variant 3",
-    //         price: 1000,
-    //         inventory: 0,
-    //         quantity_sold: 0,
-    //         weight: 1.05,
-    //         description: "description variant 3",
-    //         created_at: "2023-08-14T09:10:16.000Z",
-    //         updated_at: "2023-08-14T09:10:16.000Z",
-    //         deleted_at: null,
-    //         color: {
-    //             id: 2,
-    //             name: "Trắng",
-    //             hex_code: "F5F5F5"
-    //         },
-    //         images: [
-    //             {
-    //                 url: "https://storage.googleapis.com/products-service/products/29/images/20230814040623-DreamShaper_v6_pomeranian_black_white_like_stand_on_foots_hand_1.jpg"
-    //             }
-    //         ]
-    //     }
-    // ]
 
     return (
         <div className='mt-3'>

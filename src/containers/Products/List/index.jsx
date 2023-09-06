@@ -99,6 +99,9 @@ const List = ({ data, onRefresh }) => {
             dataIndex: 'price',
             key: 'weight',
             width: 120,
+            render: (text, record) => {
+                return text.toLocaleString('it-IT') + " đ"
+            }
         },
         {
             title: 'Hàng tồn kho',

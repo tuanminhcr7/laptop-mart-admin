@@ -10,11 +10,11 @@ import Api from '../../../Apis';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Button as BtnUpdate } from 'antd';
+import BtnSubmit from '../../../components/BtnSubmit';
 
 const ModalUpdate = ({ show, handleClose, dataChoose }) => {
 
     const [dataStockEntryShow, setDataStockEntryShow] = useState(null);
-
 
     const getDataStockEntryShow = async () => {
         Api.stockEntriesShow(dataChoose?.product_id, dataChoose?.id).then(res => {
@@ -22,18 +22,6 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
         }).catch(err => {
 
         });
-    }
-
-    const [formData, setFormData] = useState({
-        quantity: dataStockEntryShow?.quantity,
-        entryDatetime: dataStockEntryShow?.entry_datetime,
-        entryPrice: dataStockEntryShow?.entry_price
-    })
-
-    const onChange = (name, value) => {
-        const newDataChoose = _.clone(dataChoose);
-        newDataChoose[name] = value;
-        setFormData(newDataChoose);
     }
 
     const onFinish = (value) => {
@@ -108,10 +96,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                 </Row>
                                 <Row>
                                     <Col style={{ display: 'flex', justifyContent: 'end' }}>
-                                        <Button variant="secondary" onClick={handleClose}>
-                                            Hủy
-                                        </Button>
-                                        <BtnUpdate className='mx-1 bg-primary' htmlType='submit'>Cập nhật</BtnUpdate>
+                                        <BtnSubmit title={"Cập nhật"} onclick={handleClose} />
                                     </Col>
                                 </Row>
                             </Form>
@@ -119,14 +104,6 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                         </>
                     }
                 </Modal.Body>
-                {/* <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Hủy
-                    </Button>
-                    <Button variant="primary" onClick={onFinish}>
-                        Cập nhật
-                    </Button>
-                </Modal.Footer> */}
             </Modal>
         </div >
     );

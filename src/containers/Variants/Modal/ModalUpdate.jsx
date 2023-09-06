@@ -1,4 +1,4 @@
-import { Image, Input, InputNumber, Select, Upload, message } from 'antd';
+import { Form, Image, Input, InputNumber, Select, Upload, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
 import _ from 'lodash';
@@ -8,21 +8,14 @@ import { UploadOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
+import BtnSubmit from '../../../components/BtnSubmit';
 
-const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, productName }) => {
+const ModalUpdate = ({ show, handleClose, productId, dataChoose, productName }) => {
 
-    const [eventOnChange, setEvenOnChange] = useState(false);
     const [masterData, setMasterData] = useState(null);
     const [dataProductVariantShow, setDataProductVariantShow] = useState(null);
-    const [formData, setFormData] = useState({
-        name: dataProductVariantShow && dataProductVariantShow?.name,
-        price: dataProductVariantShow && dataProductVariantShow?.price,
-        weight: dataProductVariantShow && dataProductVariantShow?.weight,
-        description: dataProductVariantShow && dataProductVariantShow?.description,
-        colorId: dataProductVariantShow && dataProductVariantShow?.color?.id,
-        images: dataProductVariantShow && dataProductVariantShow?.images && dataProductVariantShow?.images[0]?.url
-    });
-    // console.log(dataChoose);
+
+    const [productImage, setProductImage] = useState([]);
 
     const getMasterData = async () => {
         Api.masterData().then(res => {
@@ -35,6 +28,7 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, prod
     const getDataProductVariantShow = async () => {
         Api.productVariantShow(productId, dataChoose?.id).then(res => {
             setDataProductVariantShow(res?.data?.data);
+            setProductImage([res?.data?.data?.images[0]?.url])
         }).catch(err => {
 
         });
@@ -45,24 +39,16 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, prod
         show && getDataProductVariantShow();
         show !== true && setDataProductVariantShow(null);
     }, [show]);
-    // console.log(dataProductVariantShow);
 
-    const onChange = (name, value) => {
-        setEvenOnChange(true);
-        const newDataChoose = _.clone(dataProductVariantShow);
-        newDataChoose[name] = value;
-        setFormData({
-            name: newDataChoose && newDataChoose?.name,
-            price: newDataChoose && newDataChoose?.price,
-            weight: newDataChoose && newDataChoose?.weight,
-            description: newDataChoose && newDataChoose?.description,
-            colorId: newDataChoose && newDataChoose?.colorId || newDataChoose?.color?.id,
-            images: newDataChoose?.images[0]?.url
-        });
-    }
-
-    const onFinish = () => {
-        const payload = { ...formData }
+    const onFinish = (value) => {
+        const payload = {
+            name: value?.name,
+            weight: value?.weight,
+            description: value?.description,
+            colorId: value?.colorId,
+            price: value?.price,
+            images: productImage,
+        };
         Api.productVariantsUpdate(productId, dataChoose?.id, payload).then(res => {
             toast.success("Cập nhật thành công");
             handleClose();
@@ -80,7 +66,7 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, prod
             })
 
             Api.productUploadImages(payload).then(res => {
-                setFormData({ ...formData, images: [res?.data?.data[0]] })
+                setProductImage([res?.data?.data[0]])
             }).catch(err => {
                 // toast.error("Upload không thành công!");
             });
@@ -97,92 +83,129 @@ const ModalUpdate = ({ show, handleClose, productId, dataChoose, onRefresh, prod
                     <Modal.Body>
                         {dataProductVariantShow &&
                             <>
-                                <Row>
-                                    <Col>
-                                        <label>Tên sản phẩm</label>
-                                        <Input defaultValue={dataProductVariantShow?.name} onChange={e => onChange('name', e.target.value)} />
-                                    </Col>
-                                    <Col>
-                                        <label>Mô tả</label>
-                                        <TextArea
-                                            defaultValue={dataProductVariantShow?.description}
-                                            onChange={e => {
-                                                onChange('description', e.target.value);
-                                            }}
-                                        />
-                                    </Col>
-                                </Row>
-                                <Row className='mt-3'>
-                                    <Col>
-                                        <label>Cân nặng</label>
-                                        <InputNumber
-                                            defaultValue={dataProductVariantShow?.weight}
-                                            addonAfter="Kg"
-                                            onChange={e => onChange('weight', e)}
-                                        />
-                                    </Col>
-                                    <Col>
-                                        <label>Màu sắc</label><br />
-                                        <Select
-                                            defaultValue={dataProductVariantShow?.color?.id}
-                                            style={{ width: '100%' }}
-                                            onChange={e => onChange('colorId', e)}
-                                        >
-                                            {masterData?.colors?.map(item => {
-                                                return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                <Form
+                                    initialValues={{
+                                        name: dataProductVariantShow && dataProductVariantShow?.name,
+                                        price: dataProductVariantShow && dataProductVariantShow?.price,
+                                        weight: dataProductVariantShow && dataProductVariantShow?.weight,
+                                        description: dataProductVariantShow && dataProductVariantShow?.description,
+                                        colorId: dataProductVariantShow && dataProductVariantShow?.color?.id,
+                                        images: productImage,
+                                    }}
+                                    onFinish={onFinish}
+                                >
+                                    <Row>
+                                        <Col>
+                                            <label>Tên sản phẩm</label>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"name"}>
+                                                <Input />
+                                            </Form.Item>
 
-                                            })}
-                                        </Select>
-                                    </Col>
+                                        </Col>
+                                        <Col>
+                                            <label>Mô tả</label>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"description"}>
+                                                <TextArea />
+                                            </Form.Item>
 
-                                </Row>
-                                <Row className='mt-3'>
-                                    <Col>
-                                        <label>Giá</label><br />
-                                        <InputNumber
-                                            defaultValue={dataProductVariantShow?.price}
-                                            addonAfter="VND"
-                                            onChange={e => onChange('price', e)}
-                                        />
-                                    </Col>
-                                </Row>
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col>
+                                            <label>Cân nặng</label>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"weight"}>
+                                                <InputNumber addonAfter="Kg" />
+                                            </Form.Item>
 
-                                <Row>
-                                    <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
-                                        <label className=''>Hình ảnh</label>
-                                        <Image
-                                            width={100}
-                                            preview={false}
-                                            src={dataProductVariantShow?.images && dataProductVariantShow?.images[0]?.url}
-                                        />
-                                        <Upload {...props}>
-                                            <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
-                                        </Upload>
-                                    </Col>
+                                        </Col>
+                                        <Col>
+                                            <label>Màu sắc</label><br />
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"colorId"}>
 
-                                </Row>
-                                <Row>
-                                    <Col className='mt-2' style={{ display: 'flex', justifyContent: 'end' }}>
-                                        {/* <Button variant='success' onClick={e => handleShowModalVariant(dataChoose)}>Biến thể</Button> */}
-                                        <Button className='mx-1' variant='warning'>
-                                            <Link style={{ color: '#fff' }} to={`/products/${productId}/stock-entries/variants/${dataChoose?.id}`}>Kho</Link>
-                                        </Button>
-                                    </Col>
-                                </Row>
+                                                <Select
+
+                                                    style={{ width: '100%' }}
+                                                >
+                                                    {masterData?.colors?.map(item => {
+                                                        return <Select.Option value={item?.id}>{item?.name}</Select.Option>
+                                                    })}
+                                                </Select>
+                                            </Form.Item>
+
+                                        </Col>
+
+                                    </Row>
+                                    <Row>
+
+                                        <Col>
+                                            <label>Giá</label>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"price"}>
+                                                <InputNumber
+                                                    addonAfter="VND"
+                                                />
+                                            </Form.Item>
+
+                                        </Col>
+                                        <Col></Col>
+                                    </Row>
+
+                                    <Row>
+                                        <Col className='mt-2' style={{ display: 'flex', alignItems: 'center' }}>
+                                            <label className=''>Hình ảnh</label>
+                                            <Image
+                                                width={100}
+                                                src={productImage}
+                                                preview={false}
+                                            />
+                                            <Form.Item>
+                                                <Upload {...props}>
+                                                    <BtnUpload className='mb-2' size='small' style={{ display: 'flex', alignItems: 'center', marginLeft: 10 }} icon={<UploadOutlined />}>Click to Upload</BtnUpload>
+                                                </Upload>
+                                            </Form.Item>
+
+                                        </Col>
+                                    </Row>
+                                    <Row>
+                                        <Col className='mt-2' style={{ display: 'flex', justifyContent: 'end' }}>
+                                            {/* <Button variant='success' onClick={e => handleShowModalVariant(dataChoose)}>Biến thể</Button> */}
+                                            <Button className='mx-1' variant='warning'>
+                                                <Link style={{ color: '#fff' }} to={`/products/${productId}/stock-entries/variants/${dataChoose?.id}`}>Kho</Link>
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                    <Row className='mt-3'>
+                                        <Col style={{ display: 'flex', justifyContent: 'end' }}>
+                                            <BtnSubmit title={"Cập nhật"} onclick={handleClose} />
+                                        </Col>
+                                    </Row>
+
+                                </Form>
                             </>
                         }
 
 
                     </Modal.Body>
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Hủy
-                    </Button>
-                    <Button variant="primary" onClick={onFinish}>
-                        Cập nhật
-                    </Button>
-                </Modal.Footer>
             </Modal>
         </div >
     );

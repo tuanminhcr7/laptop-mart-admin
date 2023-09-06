@@ -147,7 +147,6 @@ const List = ({ data, onRefresh }) => {
                 dataChoose={dataUpdate}
                 show={showModalUpdate}
                 handleClose={handleCloseModalUpdate}
-                handleShow={handleShowModalUpdate}
             />
             <ModalDetail
                 dataChoose={dataDetail}
