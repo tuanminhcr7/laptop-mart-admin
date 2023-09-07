@@ -120,14 +120,22 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                     <Row>
                                         <Col>
                                             <label>Tên sản phẩm</label>
-                                            <Form.Item name={"name"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"name"}>
                                                 <Input />
                                             </Form.Item>
 
                                         </Col>
                                         <Col>
                                             <label>Mô tả</label>
-                                            <Form.Item name={"description"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"description"}>
                                                 <TextArea />
                                             </Form.Item>
 
@@ -136,14 +144,22 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                     <Row>
                                         <Col>
                                             <label>Cân nặng</label>
-                                            <Form.Item name={"weight"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"weight"}>
                                                 <InputNumber addonAfter="Kg" />
                                             </Form.Item>
 
                                         </Col>
                                         <Col>
                                             <label>Màu sắc</label><br />
-                                            <Form.Item name={"colorId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"colorId"}>
 
                                                 <Select
 
@@ -161,7 +177,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                     <Row>
                                         <Col>
                                             <label>Độ phân giải</label><br />
-                                            <Form.Item name={"resolutionId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"resolutionId"}>
 
                                                 <Select
 
@@ -175,7 +195,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                         </Col>
                                         <Col>
                                             <label>Giá</label>
-                                            <Form.Item name={"price"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"price"}>
                                                 <InputNumber
                                                     addonAfter="VND"
                                                 />
@@ -186,7 +210,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                     <Row>
                                         <Col>
                                             <label>Màn hình</label><br />
-                                            <Form.Item name={"displayId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"displayId"}>
                                                 <Select
 
                                                     style={{ width: '100%' }}
@@ -200,7 +228,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                         </Col>
                                         <Col>
                                             <label>Card đồ họa</label><br />
-                                            <Form.Item name={"graphicsCardId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"graphicsCardId"}>
                                                 <Select
 
                                                     style={{ width: '100%' }}
@@ -216,7 +248,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                     <Row>
                                         <Col>
                                             <label>Hãng sản xuất</label><br />
-                                            <Form.Item name={"manufacturerId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"manufacturerId"}>
                                                 <Select
 
                                                     style={{ width: '100%' }}
@@ -231,7 +267,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                         </Col>
                                         <Col>
                                             <label>Hệ điều hành</label><br />
-                                            <Form.Item name={"operatingSystemId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"operatingSystemId"}>
                                                 <Select
 
                                                     style={{ width: '100%' }}
@@ -247,7 +287,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                     <Row>
                                         <Col>
                                             <label>Bộ vi xử lý</label><br />
-                                            <Form.Item name="processorId">
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name="processorId">
                                                 <Select
 
                                                     style={{ width: '100%' }}
@@ -261,7 +305,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                         </Col>
                                         <Col>
                                             <label>Ram</label><br />
-                                            <Form.Item name={"ramId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"ramId"}>
                                                 <Select
 
                                                     style={{ width: '100%' }}
@@ -277,7 +325,11 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                     <Row>
                                         <Col>
                                             <label>Tần số quét</label><br />
-                                            <Form.Item name={"refreshRateId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"refreshRateId"}>
                                                 <Select
 
                                                     style={{ width: '100%' }}
@@ -292,10 +344,15 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                         </Col>
                                         <Col>
                                             <label>Bộ nhớ</label><br />
-                                            <Form.Item name={"storageId"}>
+                                            <Form.Item
+                                                rules={[
+                                                    { required: true, message: "Không được để trống" }
+                                                ]}
+                                                name={"storageId"}>
                                                 <Select
 
                                                     style={{ width: '100%' }}
+
                                                 >
                                                     {masterData?.storages?.map(item => {
                                                         return <Select.Option value={item?.id}>{item?.size} GB - {item?.type}</Select.Option>
@@ -322,13 +379,6 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Col className='mt-2' style={{ display: 'flex', justifyContent: 'end' }}>
-                                            <Button variant='success'>
-                                                <Link style={{ color: '#fff' }} to={`/products/${dataChoose?.id}/variants`}>Biến thể</Link>
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                    <Row className='mt-3'>
                                         <Col style={{ display: 'flex', justifyContent: 'end' }}>
                                             <BtnSubmit title={"Cập nhật"} onclick={handleClose} />
                                         </Col>

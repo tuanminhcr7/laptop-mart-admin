@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 import Api from '../../../Apis';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import BtnSubmit from '../../../components/BtnSubmit';
 
 
 
@@ -194,12 +195,7 @@ const ModalUpdate = ({ show, handleClose, dataChoose }) => {
                                 </Row>
                                 <Row>
                                     <Col style={{ display: 'flex', justifyContent: 'end' }}>
-                                        <Button className='bg-danger' onClick={handleClose}>
-                                            Hủy
-                                        </Button>
-                                        <Button className='bg-primary' htmlType='submit'>
-                                            Cập nhật
-                                        </Button>
+                                        <BtnSubmit title={"Cập nhật"} onclick={handleClose} />
                                     </Col>
 
                                 </Row>
